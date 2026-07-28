@@ -60,7 +60,7 @@ export default function RoomsSection() {
           start: "top top",
           end: () => `+=${totalScroll}`,
           pin: true,
-          scrub: 1,
+          scrub: 2,
           invalidateOnRefresh: true,
           anticipatePin: 1,
         },
@@ -87,31 +87,32 @@ export default function RoomsSection() {
       id="rooms"
       className="relative bg-deep-blue overflow-hidden"
     >
-      <div className="rooms-header absolute top-0 left-0 right-0 z-10 pt-24 md:pt-32 pb-8 px-6 md:px-10 max-w-[1400px] mx-auto">
-        <p className="section-label mb-4">Chapter II — Accommodations</p>
-        <h2 className="heading-serif text-4xl md:text-6xl text-cream max-w-xl">
-          Suites crafted for the discerning traveler
-        </h2>
-      </div>
+      <div className="h-screen flex flex-col">
+        <div className="rooms-header shrink-0 pt-24 md:pt-28 pb-8 px-6 md:px-10 max-w-[1400px] mx-auto w-full">
+          <p className="section-label mb-4">Chapter II — Accommodations</p>
+          <h2 className="heading-serif text-4xl md:text-6xl text-cream max-w-xl">
+            Suites crafted for the discerning traveler
+          </h2>
+        </div>
 
-      <div className="h-screen flex items-center pt-32">
-        <div
-          ref={trackRef}
-          className="horizontal-scroll-panel flex gap-6 md:gap-8 pl-6 md:pl-10 pr-6"
-        >
+        <div className="flex-1 flex items-center min-h-0 pb-8">
+          <div
+            ref={trackRef}
+            className="horizontal-scroll-panel flex gap-6 md:gap-8 pl-6 md:pl-10 pr-6 items-center"
+          >
           {rooms.map((room, i) => (
             <article
               key={room.name}
-              className="room-panel shrink-0 w-[85vw] md:w-[55vw] lg:w-[45vw] group"
+              className="room-panel shrink-0 w-[80vw] md:w-[50vw] lg:w-[38vw] group"
             >
-              <div className="relative aspect-[16/10] overflow-hidden rounded-sm mb-6">
+              <div className="relative overflow-hidden rounded-sm mb-5" style={{ height: "clamp(220px, 38vh, 420px)" }}>
                 <div className="room-image relative w-full h-full">
                   <Image
                     src={room.image}
                     alt={room.name}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 768px) 85vw, 45vw"
+                    sizes="(max-width: 768px) 80vw, 40vw"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight/80 via-transparent to-transparent" />
@@ -158,6 +159,7 @@ export default function RoomsSection() {
               <span className="section-label">View all suites</span>
             </a>
           </div>
+        </div>
         </div>
       </div>
     </section>

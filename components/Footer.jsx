@@ -46,7 +46,7 @@ export default function Footer() {
     <footer ref={footerRef} className="bg-midnight border-t border-white/5 pt-20 pb-10">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="footer-brand mb-16 md:mb-24">
-          <p className="heading-serif text-6xl md:text-8xl text-cream/10 select-none">
+          <p className="heading-serif text-6xl md:text-8xl text-cream/10 select-none text-center">
             Continental
           </p>
         </div>

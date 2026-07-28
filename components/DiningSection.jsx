@@ -36,8 +36,8 @@ export default function DiningSection() {
       gsap.from(".dining-image-main", {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 60%",
-          end: "bottom 20%",
+          start: "top 85%",
+          end: "bottom 40%",
           scrub: 1,
         },
         clipPath: "inset(100% 0 0 0)",
@@ -47,7 +47,7 @@ export default function DiningSection() {
       gsap.from(".dining-image-secondary", {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 50%",
+          start: "top 75%",
           end: "bottom 30%",
           scrub: 1.5,
         },
