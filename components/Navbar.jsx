@@ -96,8 +96,8 @@ export default function Navbar() {
         ref={navRef}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-midnight/90 backdrop-blur-md border-b border-white/5 py-3"
-            : "bg-transparent py-5"
+            ? "bg-midnight/90 backdrop-blur-md border-b border-white/5 py-4"
+            : "bg-transparent py-7"
         }`}
       >
         <nav
