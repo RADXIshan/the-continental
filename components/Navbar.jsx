@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const navLinks = [
   { label: "Suites", href: "#rooms" },
@@ -18,38 +17,6 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const mobileLinksRef = useRef([]);
-
-  // Entrance animation after preloader
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".nav-logo", {
-        y: -20,
-        opacity: 0,
-        duration: 0.8,
-        delay: 2.6,
-        ease: "power3.out",
-      });
-
-      gsap.from(".nav-item", {
-        y: -16,
-        opacity: 0,
-        duration: 0.7,
-        delay: 2.7,
-        stagger: 0.08,
-        ease: "power3.out",
-      });
-
-      gsap.from(".nav-reserve", {
-        y: -16,
-        opacity: 0,
-        duration: 0.7,
-        delay: 3.0,
-        ease: "power3.out",
-      });
-    }, navRef);
-
-    return () => ctx.revert();
-  }, []);
 
   // Scroll-based background
   useEffect(() => {

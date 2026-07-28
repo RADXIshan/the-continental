@@ -2,46 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-const rooms = [
-  {
-    name: "Presidential Suite",
-    desc: "Panoramic views, private terrace, and butler service",
-    price: "From $1,200",
-    image:
-      "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    name: "Ocean View Deluxe",
-    desc: "Floor-to-ceiling windows overlooking the lake",
-    price: "From $680",
-    image:
-      "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    name: "Heritage Room",
-    desc: "Original 1924 architecture with modern amenities",
-    price: "From $420",
-    image:
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    name: "Garden Pavilion",
-    desc: "Secluded retreat surrounded by botanical gardens",
-    price: "From $550",
-    image:
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    name: "Penthouse Loft",
-    desc: "Double-height ceilings and a private infinity pool",
-    price: "From $950",
-    image:
-      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1200&auto=format&fit=crop",
-  },
-];
+import { rooms } from "../lib/rooms";
 
 export default function RoomsSection() {
   const sectionRef = useRef(null);
@@ -135,8 +99,8 @@ export default function RoomsSection() {
           ))}
 
           <div className="shrink-0 w-[30vw] flex items-center justify-center">
-            <a
-              href="#reserve"
+            <Link
+              href="/suites"
               className="group flex flex-col items-center gap-4 text-center"
             >
               <span className="w-20 h-20 rounded-full border border-amber/40 flex items-center justify-center group-hover:bg-amber/10 transition-colors duration-500">
@@ -157,7 +121,7 @@ export default function RoomsSection() {
                 </svg>
               </span>
               <span className="section-label">View all suites</span>
-            </a>
+            </Link>
           </div>
         </div>
         </div>

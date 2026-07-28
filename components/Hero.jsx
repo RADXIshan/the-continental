@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 export default function Hero() {
   const sectionRef = useRef(null);
 
+  // Scroll-driven parallax only — entrance is handled by HomePage timeline
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.to(".hero-bg", {
@@ -55,30 +56,6 @@ export default function Hero() {
           scrub: true,
         },
       });
-
-      gsap.from(".hero-headline .line", {
-        y: "110%",
-        duration: 1.2,
-        stagger: 0.15,
-        delay: 2.4,
-        ease: "power4.out",
-      });
-
-      gsap.from(".hero-search", {
-        x: 60,
-        opacity: 0,
-        duration: 1,
-        delay: 2.8,
-        ease: "power3.out",
-      });
-
-      gsap.from(".hero-scroll-hint", {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        delay: 3.2,
-        ease: "power2.out",
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -113,34 +90,57 @@ export default function Hero() {
 
       <div className="hero-content relative z-10 flex h-full flex-col justify-end pb-10 md:pb-16 px-6 md:px-10 max-w-[1400px] mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
-          <div className="hero-headline max-w-2xl">
+          <div className="max-w-2xl">
             <h2 className="heading-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-cream font-semibold">
               <span className="line-reveal block">
-                <span className="line block">Where Timeless</span>
+                <span
+                  className="hero-line-1 block"
+                  style={{ transform: "translateY(110%)" }}
+                >
+                  Where Timeless
+                </span>
               </span>
               <span className="line-reveal block">
-                <span className="line block">Elegance Awaits</span>
+                <span
+                  className="hero-line-2 block"
+                  style={{ transform: "translateY(110%)" }}
+                >
+                  Elegance Awaits
+                </span>
               </span>
             </h2>
-            <p className="mt-6 text-muted text-lg md:text-xl max-w-md leading-relaxed font-medium opacity-0 animate-[fadeIn_1s_ease_3s_forwards]">
+
+            <p
+              className="hero-subtext mt-6 text-muted text-lg md:text-xl max-w-md leading-relaxed font-medium"
+              style={{ opacity: 0, transform: "translateY(16px)" }}
+            >
               A sanctuary of refined luxury nestled where starlit waters meet
               architectural brilliance.
             </p>
           </div>
 
-          <div className="hero-search glass-pill flex items-center rounded-full p-2 pl-6 max-w-md w-full lg:w-auto lg:min-w-[380px]">
+          <div
+            className="hero-search glass-pill flex items-center rounded-full p-2 pl-6 max-w-md w-full lg:w-auto lg:min-w-[380px]"
+            style={{ opacity: 0, transform: "translateX(60px)" }}
+          >
             <input
               type="text"
               placeholder="Search availability"
               className="flex-1 bg-transparent text-cream placeholder:text-white/40 text-sm outline-none min-w-0"
             />
-            <button type="button" className="btn-amber rounded-full px-6 py-3 text-sm shrink-0">
+            <button
+              type="button"
+              className="btn-amber rounded-full px-6 py-3 text-sm shrink-0"
+            >
               Search
             </button>
           </div>
         </div>
 
-        <div className="hero-scroll-hint absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+        <div
+          className="hero-scroll-hint absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+          style={{ opacity: 0, transform: "translateY(20px)" }}
+        >
           <span className="section-label text-[0.6rem] text-white/40">
             Scroll to explore
           </span>

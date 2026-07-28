@@ -28,7 +28,7 @@
   --color-amber-light: var(--amber-light);
   --color-cream: var(--cream);
   --color-muted: var(--muted);
-  --font-sans: var(--font-dm-sans);
+  --font-sans: var(--font-inter);
   --font-serif: var(--font-cormorant);
 }
 
@@ -64,7 +64,7 @@ html.lenis body {
 body {
   background: var(--midnight);
   color: var(--cream);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
 }
 
@@ -150,6 +150,8 @@ body {
 
 .line-reveal {
   overflow: hidden;
+  padding-bottom: 0.15em;
+  margin-bottom: -0.15em;
 }
 
 .line-reveal-inner {
@@ -186,32 +188,144 @@ body {
   }
 }
 
-.preloader {
+/* ─── Preloader ─────────────────────────────────────────────── */
+.preloader-wrap {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: var(--midnight);
+  overflow: hidden;
+  will-change: opacity;
+}
+
+/* Split curtains — SVG panels */
+.preloader-curtain-svg {
+  position: absolute;
+  top: 0;
+  width: 50vw;
+  height: 100%;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.preloader-curtain-svg--left  { 
+  left: 0;
+}
+.preloader-curtain-svg--right { 
+  right: 0;
+}
+
+/* Centre stage */
+.preloader-center {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* Monogram circle */
+.preloader-monogram {
+  width: 96px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.preloader-bar {
-  width: 120px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  position: relative;
+.preloader-monogram-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 18px rgba(232, 168, 73, 0.25));
 }
 
-.preloader-bar-fill {
+/* Ornament rows */
+.preloader-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10px;
+}
+
+.preloader-ornament--bottom {
+  margin-top: 0.25rem;
+}
+
+/* Extending horizontal lines */
+.preloader-lines {
   position: absolute;
   inset: 0;
-  background: var(--amber);
-  transform-origin: left;
-  transform: scaleX(0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.preloader-line {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) scaleX(0);
+  height: 1px;
+  width: 18vw;
+  background: linear-gradient(90deg, transparent, rgba(232, 168, 73, 0.35));
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader-line--left {
+  right: calc(50% + 56px);
+  transform-origin: right center;
+  transform: translateY(-50%) scaleX(0);
+  background: linear-gradient(270deg, rgba(232, 168, 73, 0.5), transparent);
+}
+
+.preloader-line--right {
+  left: calc(50% + 56px);
+  transform-origin: left center;
+  transform: translateY(-50%) scaleX(0);
+  background: linear-gradient(90deg, rgba(232, 168, 73, 0.5), transparent);
+}
+
+/* Title */
+.preloader-title {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cream);
+  line-height: 1;
+  margin: 0;
+}
+
+/* Tagline */
+.preloader-tagline {
+  font-size: 0.62rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Counter */
+.preloader-counter {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2.75rem;
+  z-index: 3;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  font-weight: 300;
+  color: rgba(245, 240, 232, 0.07);
+  line-height: 1;
+  user-select: none;
+  letter-spacing: -0.04em;
 }
 
 .scroll-progress {
@@ -235,4 +349,20 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ─── Page Transition ───────────────────────────────────────── */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: linear-gradient(
+    180deg,
+    var(--midnight) 0%,
+    var(--deep-blue) 50%,
+    var(--midnight) 100%
+  );
+  display: none;
+  pointer-events: none;
+  will-change: transform;
 }
