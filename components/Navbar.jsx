@@ -42,13 +42,13 @@ export default function Navbar() {
       ref={navRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         scrolled || menuOpen
-          ? "bg-midnight/80 backdrop-blur-xl border-b border-white/5 py-4"
-          : "bg-transparent py-6 md:py-8"
+          ? "bg-midnight/80 backdrop-blur-xl border-b border-white/5 py-5"
+          : "bg-transparent py-7 md:py-9"
       }`}
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <nav className="flex items-center justify-between">
-          <div className="hidden md:flex items-center gap-10">
+        <nav className="flex items-center justify-between gap-4">
+          <div className="hidden md:flex items-center gap-8 lg:gap-10 flex-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -58,6 +58,12 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+            <a
+              href="#reserve"
+              className="nav-item hidden md:inline-flex items-center btn-amber rounded-full px-6 py-2.5 text-sm whitespace-nowrap ml-auto"
+            >
+              Reserve Now
+            </a>
           </div>
 
           <a
@@ -67,14 +73,7 @@ export default function Navbar() {
             The Continental
           </a>
 
-          <div className="flex items-center gap-4">
-            <a
-              href="#reserve"
-              className="nav-item hidden sm:inline-flex btn-amber rounded-full px-6 py-2.5 text-sm"
-            >
-              Reserve Now
-            </a>
-
+          <div className="flex items-center gap-4 md:gap-6">
             <button
               type="button"
               aria-label="Toggle menu"
