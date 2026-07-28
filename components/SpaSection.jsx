@@ -39,7 +39,7 @@ const treatments = [
 function CursorImage({ visible, position, src, alt }) {
   return (
     <div
-      className="pointer-events-none fixed z-[200] w-44 h-56 overflow-hidden rounded-sm shadow-[0_24px_60px_rgba(0,0,0,0.7)]"
+      className="pointer-events-none fixed z-200 w-44 h-56 overflow-hidden rounded-sm shadow-[0_24px_60px_rgba(0,0,0,0.7)]"
       style={{
         left: position.x,
         top: position.y,
@@ -228,7 +228,7 @@ export default function SpaSection() {
         id="spa"
         className="relative bg-midnight py-28 md:py-44 overflow-hidden"
       >
-        <div className="relative mx-auto max-w-[1400px] px-6 md:px-10">
+        <div className="relative mx-auto max-w-350 px-6 md:px-10">
 
           {/* ── Top: editorial two-column layout ── */}
           <div className="grid lg:grid-cols-12 gap-16 lg:gap-10 items-start mb-24 md:mb-36">
@@ -268,7 +268,7 @@ export default function SpaSection() {
                 </svg>
               </a>
 
-              <div className="spa-stats grid grid-cols-3 gap-6 mt-16 pt-16 border-t border-white/[0.08]">
+              <div className="spa-stats grid grid-cols-3 gap-6 mt-16 pt-16 border-t border-white/8">
                 {[
                   { value: "14", label: "Treatment Rooms" },
                   { value: "3", label: "Thermal Pools" },
@@ -297,7 +297,7 @@ export default function SpaSection() {
                     sizes="(max-width: 1024px) 100vw, 55vw"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-midnight/40 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-midnight/40 to-transparent" />
                 <span className="absolute bottom-6 right-6 section-label text-white/40">Thermal Wing</span>
               </div>
 
@@ -314,15 +314,15 @@ export default function SpaSection() {
                     sizes="224px"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-midnight/60 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-midnight/60 to-transparent" />
               </div>
             </div>
           </div>
 
           {/* ── Bottom: treatments list with cursor hover image ── */}
-          <div className="spa-treatments-grid border-t border-white/[0.08] pt-16 md:pt-20">
+          <div className="spa-treatments-grid border-t border-white/8 pt-16 md:pt-20">
             <p className="section-label text-white/30 mb-10">Signature Treatments</p>
-            <div className="divide-y divide-white/[0.08]">
+            <div className="divide-y divide-white/8">
               {treatments.map((t) => (
                 <div
                   key={t.name}

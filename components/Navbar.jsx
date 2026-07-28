@@ -68,7 +68,7 @@ export default function Navbar() {
         }`}
       >
         <nav
-          className="mx-auto max-w-[1400px] px-6 md:px-10 flex items-center justify-between"
+          className="mx-auto max-w-350 px-6 md:px-10 flex items-center justify-between"
           aria-label="Main navigation"
         >
           {/* Logo */}
@@ -126,12 +126,12 @@ export default function Navbar() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="md:hidden flex flex-col gap-[5px] p-2 group"
+            className="md:hidden flex flex-col gap-1.25 p-2 group"
             onClick={() => setMenuOpen((v) => !v)}
           >
             <span
               className={`block h-px w-6 bg-cream transition-all duration-300 origin-center ${
-                menuOpen ? "rotate-45 translate-y-[7px]" : ""
+                menuOpen ? "rotate-45 translate-y-1.75" : ""
               }`}
             />
             <span
@@ -141,7 +141,7 @@ export default function Navbar() {
             />
             <span
               className={`block h-px w-6 bg-cream transition-all duration-300 origin-center ${
-                menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                menuOpen ? "-rotate-45 -translate-y-1.75" : ""
               }`}
             />
           </button>
@@ -159,7 +159,7 @@ export default function Navbar() {
         {/* Decorative watermark */}
         <span
           aria-hidden
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 heading-serif text-[22vw] text-white/[0.03] select-none pointer-events-none whitespace-nowrap"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 heading-serif text-[22vw] text-white/3 select-none pointer-events-none whitespace-nowrap"
         >
           Continental
         </span>

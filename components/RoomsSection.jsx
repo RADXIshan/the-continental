@@ -52,7 +52,7 @@ export default function RoomsSection() {
       className="relative bg-deep-blue overflow-hidden"
     >
       <div className="h-screen flex flex-col">
-        <div className="rooms-header shrink-0 pt-24 md:pt-28 pb-8 px-6 md:px-10 max-w-[1400px] mx-auto w-full">
+        <div className="rooms-header shrink-0 pt-24 md:pt-28 pb-8 px-6 md:px-10 max-w-350 mx-auto w-full">
           <p className="section-label mb-4">Chapter II — Accommodations</p>
           <h2 className="heading-serif text-4xl md:text-6xl text-cream max-w-xl">
             Suites crafted for the discerning traveler
@@ -79,7 +79,7 @@ export default function RoomsSection() {
                     sizes="(max-width: 768px) 80vw, 40vw"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-midnight/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-midnight/80 via-transparent to-transparent" />
                 <span className="absolute top-6 left-6 section-label text-white/60">
                   0{i + 1}
                 </span>

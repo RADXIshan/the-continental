@@ -33,7 +33,7 @@ function AmenityIcon() {
       height="12"
       viewBox="0 0 12 12"
       fill="none"
-      className="shrink-0 text-amber mt-[2px]"
+      className="shrink-0 text-amber mt-0.5"
       aria-hidden
     >
       <path
@@ -90,7 +90,7 @@ function SuiteCard({ room, index }) {
           className="object-cover transition-transform duration-700 group-hover:scale-105"
           sizes="(max-width: 1024px) 100vw, 50vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-midnight/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-midnight/70 via-transparent to-transparent" />
 
         {/* Index label */}
         <span className="absolute top-6 left-6 section-label text-white/50">
@@ -194,7 +194,7 @@ export default function SuitesPage() {
 
       {/* ── Sticky top navigation bar ────────────────────────── */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-midnight/90 backdrop-blur-md border-b border-white/5 py-4">
-        <div className="mx-auto max-w-[1400px] px-6 md:px-10 flex items-center justify-between">
+        <div className="mx-auto max-w-350 px-6 md:px-10 flex items-center justify-between">
           <Link
             href="/"
             className="suites-back-link flex items-center gap-2.5 glass-pill px-4 py-2.5 rounded-full hover:border-amber/30 transition-all duration-300 group"
@@ -250,7 +250,7 @@ export default function SuitesPage() {
             className="object-cover object-center opacity-20"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-midnight/60 via-midnight/80 to-midnight" />
+          <div className="absolute inset-0 bg-linear-to-b from-midnight/60 via-midnight/80 to-midnight" />
         </div>
 
         {/* Watermark */}
@@ -261,7 +261,7 @@ export default function SuitesPage() {
           Suites
         </span>
 
-        <div className="relative z-10 max-w-[1400px] mx-auto">
+        <div className="relative z-10 max-w-350 mx-auto">
           <p className="suites-hero-label section-label mb-6">Chapter II — Accommodations</p>
           <h1 className="suites-hero-h1 heading-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-cream max-w-3xl">
             <span className="line-reveal block">
@@ -281,9 +281,9 @@ export default function SuitesPage() {
       {/* ── Filter bar ───────────────────────────────────────── */}
       <div
         ref={filterBarRef}
-        className="sticky top-[72px] z-40 bg-midnight/95 backdrop-blur-md border-b border-white/5 py-5"
+        className="sticky top-18 z-40 bg-midnight/95 backdrop-blur-md border-b border-white/5 py-5"
       >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+        <div className="max-w-350 mx-auto px-6 md:px-10">
           <div className="flex items-center gap-3 flex-wrap">
             <span className="text-muted text-xs tracking-widest uppercase mr-2 hidden sm:block">Filter</span>
             {FILTERS.map((f) => (
@@ -311,7 +311,7 @@ export default function SuitesPage() {
 
       {/* ── Suite cards ──────────────────────────────────────── */}
       <main
-        className="max-w-[1400px] mx-auto px-6 md:px-10 py-16 md:py-24 flex flex-col gap-12 md:gap-16"
+        className="max-w-350 mx-auto px-6 md:px-10 py-16 md:py-24 flex flex-col gap-12 md:gap-16"
         id="suites-list"
       >
         {filtered.length === 0 ? (

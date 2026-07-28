@@ -87,7 +87,7 @@ export default function DiningSection() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-[1400px] px-6 md:px-10">
+      <div className="relative mx-auto max-w-350 px-6 md:px-10">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           <div className="lg:col-span-5 dining-text">
             <p className="section-label mb-6">Chapter III — Culinary Arts</p>
@@ -118,7 +118,7 @@ export default function DiningSection() {
 
           <div className="lg:col-span-7 relative">
             <div
-              className="dining-image-main relative aspect-[4/5] md:aspect-[5/4] overflow-hidden rounded-sm"
+              className="dining-image-main relative aspect-4/5 md:aspect-5/4 overflow-hidden rounded-sm"
               style={{ clipPath: "inset(0 0 0 0)" }}
             >
               <Image

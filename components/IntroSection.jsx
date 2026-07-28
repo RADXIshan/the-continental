@@ -84,7 +84,7 @@ export default function IntroSection() {
       id="story"
       className="relative bg-midnight py-24 md:py-40 overflow-hidden"
     >
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+      <div className="mx-auto max-w-350 px-6 md:px-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <div>
             <p className="intro-label section-label mb-8">Chapter I — The Legacy</p>
@@ -128,7 +128,7 @@ export default function IntroSection() {
             </div>
           </div>
 
-          <div className="intro-image-wrap relative aspect-[3/4] rounded-sm overflow-hidden">
+          <div className="intro-image-wrap relative aspect-3/4 rounded-sm overflow-hidden">
             <div
               className="intro-image absolute inset-0 bg-cover bg-center"
               style={{
@@ -136,7 +136,7 @@ export default function IntroSection() {
                   "url(https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop)",
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-midnight/60 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-midnight/60 to-transparent" />
             <div className="absolute bottom-8 left-8 right-8">
               <p className="section-label mb-2">Grand Lobby</p>
               <p className="heading-serif text-2xl text-cream">

@@ -55,7 +55,7 @@ export default function BookingSection() {
         <div className="absolute inset-0 bg-midnight/70" />
       </div>
 
-      <div className="booking-content relative z-10 mx-auto max-w-[1400px] px-6 md:px-10 py-24 md:py-32 text-center w-full">
+      <div className="booking-content relative z-10 mx-auto max-w-350 px-6 md:px-10 py-24 md:py-32 text-center w-full">
         <p className="section-label mb-6">Your Journey Begins</p>
         <h2 className="heading-serif text-5xl md:text-7xl lg:text-8xl text-cream mb-8 max-w-4xl mx-auto">
           Reserve your place in history

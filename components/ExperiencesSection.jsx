@@ -71,7 +71,7 @@ export default function ExperiencesSection() {
       id="experiences"
       className="relative py-24 md:py-40 bg-deep-blue overflow-hidden"
     >
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+      <div className="mx-auto max-w-350 px-6 md:px-10">
 
         {/* Header */}
         <div className="exp-header flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16 md:mb-20">
@@ -97,7 +97,7 @@ export default function ExperiencesSection() {
             return (
               <div
                 key={exp.title}
-                className="relative overflow-hidden rounded-sm cursor-pointer flex-shrink-0 group"
+                className="relative overflow-hidden rounded-sm cursor-pointer shrink-0 group"
                 style={{
                   flex: isActive ? "4 0 0%" : "1 0 0%",
                   transition: "flex 0.7s cubic-bezier(0.76, 0, 0.24, 1)",
