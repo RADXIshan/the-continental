@@ -6,7 +6,9 @@ export default function Providers({ children }) {
   return (
     <>
       <PageTransition />
-      {children}
+      <div id="app-content">
+        {children}
+      </div>
     </>
   );
 }

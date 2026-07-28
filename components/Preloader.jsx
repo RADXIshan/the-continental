@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { preloaderState } from "../lib/preloaderState";
 
 export default function Preloader({ onComplete }) {
   const containerRef   = useRef(null);
@@ -29,8 +30,8 @@ export default function Preloader({ onComplete }) {
     if (hasRun.current) return;
     hasRun.current = true;
 
-    // If preloader already played this session, skip entirely and hide self
-    if (sessionStorage.getItem("preloader-done")) {
+    // If preloader already played (client-side navigation), skip and hide self
+    if (preloaderState.hasPlayed) {
       const container = containerRef.current;
       if (container) gsap.set(container, { autoAlpha: 0, display: "none" });
       document.body.style.overflow = "";
@@ -91,7 +92,7 @@ export default function Preloader({ onComplete }) {
       onStart() {
         // Signal to show content early in the curtain animation
         gsap.delayedCall(0.4, () => {
-          sessionStorage.setItem("preloader-done", "1");
+          preloaderState.hasPlayed = true;
           onCompleteRef.current?.();
         });
       },

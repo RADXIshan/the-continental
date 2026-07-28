@@ -363,6 +363,38 @@ body {
     var(--midnight) 100%
   );
   display: none;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
   will-change: transform;
 }
+
+/* Logo shown in the centre of the curtain */
+.page-transition-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.page-transition-logo__wordmark {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  letter-spacing: 0.12em;
+  color: var(--cream);
+  line-height: 1;
+}
+
+.page-transition-logo__est {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-weight: 500;
+}
+
+/* Hide incoming page content while curtain is closing.
+   Controlled via inline style by PageTransition.jsx */

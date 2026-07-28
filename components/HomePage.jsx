@@ -15,6 +15,7 @@ import ExperiencesSection from "./ExperiencesSection";
 import TestimonialsSection from "./TestimonialsSection";
 import BookingSection from "./BookingSection";
 import Footer from "./Footer";
+import { preloaderState } from "../lib/preloaderState";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,13 +65,39 @@ export default function HomePage() {
     });
   }, []);
 
-  // If preloader already ran (i.e. navigated back from another page),
-  // reveal content immediately without waiting for preloader
+  // If preloader already played (client-side nav back to home), snap everything
+  // to its final visible state instantly — no animation needed.
   useEffect(() => {
-    const alreadySeen = sessionStorage.getItem("preloader-done");
-    if (alreadySeen) {
-      handlePreloaderComplete();
-    }
+    if (!preloaderState.hasPlayed) return;
+
+    const content = contentRef.current;
+    if (!content) return;
+
+    // Reveal wrapper
+    gsap.set(content, { visibility: "visible", opacity: 1 });
+
+    // Nav elements — clear any stale from-tween inline styles
+    gsap.set([".nav-logo", ".nav-item", ".nav-reserve"], { clearProps: "all" });
+
+    // Hero elements — snap to their final animated state
+    gsap.set([".hero-line-1", ".hero-line-2"], { y: 0 });
+    gsap.set(".hero-subtext",     { opacity: 1, y: 0 });
+    gsap.set(".hero-search",      { opacity: 1, x: 0 });
+    gsap.set(".hero-scroll-hint", { opacity: 1, y: 0 });
+
+    // Scroll progress bar
+    gsap.to(progressRef.current, {
+      scaleX: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.3,
+      },
+    });
+
+    ScrollTrigger.refresh();
   }, [handlePreloaderComplete]);
 
   return (
