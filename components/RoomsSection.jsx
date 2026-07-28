@@ -32,7 +32,7 @@ const rooms = [
     desc: "Secluded retreat surrounded by botanical gardens",
     price: "From $550",
     image:
-      "https://images.unsplash.com/photo-1590076617890-579a4a2d5a48?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop",
   },
   {
     name: "Penthouse Loft",

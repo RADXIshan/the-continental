@@ -100,7 +100,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="hero-overlay absolute inset-0 bg-gradient-to-b from-midnight/40 via-midnight/20 to-midnight/90 opacity-60" />
+      <div className="hero-overlay absolute inset-0 bg-gradient-to-b from-midnight/75 via-midnight/30 to-midnight/50 opacity-60" />
 
       <div className="hero-watermark absolute inset-0 flex items-start justify-center pt-[12vh] md:pt-[8vh] pointer-events-none">
         <h1
@@ -114,7 +114,7 @@ export default function Hero() {
       <div className="hero-content relative z-10 flex h-full flex-col justify-end pb-10 md:pb-16 px-6 md:px-10 max-w-[1400px] mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
           <div className="hero-headline max-w-2xl">
-            <h2 className="heading-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-cream">
+            <h2 className="heading-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-cream font-semibold">
               <span className="line-reveal block">
                 <span className="line block">Where Timeless</span>
               </span>
@@ -122,7 +122,7 @@ export default function Hero() {
                 <span className="line block">Elegance Awaits</span>
               </span>
             </h2>
-            <p className="mt-6 text-muted text-base md:text-lg max-w-md leading-relaxed opacity-0 animate-[fadeIn_1s_ease_3s_forwards]">
+            <p className="mt-6 text-muted text-lg md:text-xl max-w-md leading-relaxed font-medium opacity-0 animate-[fadeIn_1s_ease_3s_forwards]">
               A sanctuary of refined luxury nestled where starlit waters meet
               architectural brilliance.
             </p>

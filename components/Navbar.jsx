@@ -5,31 +5,45 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const navLinks = [
-  { label: "Suites & Rooms", href: "#rooms" },
-  { label: "Dining & Bar", href: "#dining" },
+  { label: "Suites", href: "#rooms" },
+  { label: "Dining", href: "#dining" },
+  { label: "Spa", href: "#spa" },
   { label: "Experiences", href: "#experiences" },
+  { label: "Our Story", href: "#story" },
 ];
 
 export default function Navbar() {
   const navRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
+  const mobileLinksRef = useRef([]);
 
+  // Entrance animation after preloader
   useEffect(() => {
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        start: "top -60",
-        end: 99999,
-        onEnter: () => setScrolled(true),
-        onLeaveBack: () => setScrolled(false),
-      });
-
-      gsap.from(".nav-item", {
+      gsap.from(".nav-logo", {
         y: -20,
         opacity: 0,
         duration: 0.8,
-        stagger: 0.1,
-        delay: 2.2,
+        delay: 2.6,
+        ease: "power3.out",
+      });
+
+      gsap.from(".nav-item", {
+        y: -16,
+        opacity: 0,
+        duration: 0.7,
+        delay: 2.7,
+        stagger: 0.08,
+        ease: "power3.out",
+      });
+
+      gsap.from(".nav-reserve", {
+        y: -16,
+        opacity: 0,
+        duration: 0.7,
+        delay: 3.0,
         ease: "power3.out",
       });
     }, navRef);
@@ -37,95 +51,186 @@ export default function Navbar() {
     return () => ctx.revert();
   }, []);
 
-  return (
-    <header
-      ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-        scrolled || menuOpen
-          ? "bg-midnight/80 backdrop-blur-xl border-b border-white/5 py-5"
-          : "bg-transparent py-7 md:py-9"
-      }`}
-    >
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <nav className="flex items-center justify-between gap-4">
-          <div className="hidden md:flex items-center gap-8 lg:gap-10 flex-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="nav-item nav-link text-sm tracking-wide"
-              >
-                {link.label}
-              </a>
-            ))}
-            <a
-              href="#reserve"
-              className="nav-item hidden md:inline-flex items-center btn-amber rounded-full px-6 py-2.5 text-sm whitespace-nowrap ml-auto"
-            >
-              Reserve Now
-            </a>
-          </div>
+  // Scroll-based background
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
+  // Mobile menu open/close animation
+  useEffect(() => {
+    const menu = mobileMenuRef.current;
+    const links = mobileLinksRef.current;
+
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+      gsap.to(menu, { autoAlpha: 1, duration: 0.4, ease: "power3.out" });
+      gsap.from(links, {
+        y: 30,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.07,
+        delay: 0.1,
+        ease: "power3.out",
+      });
+    } else {
+      document.body.style.overflow = "";
+      gsap.to(menu, { autoAlpha: 0, duration: 0.3, ease: "power3.in" });
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  const handleNavClick = (href) => {
+    setMenuOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <>
+      <header
+        ref={navRef}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-midnight/90 backdrop-blur-md border-b border-white/5 py-3"
+            : "bg-transparent py-5"
+        }`}
+      >
+        <nav
+          className="mx-auto max-w-[1400px] px-6 md:px-10 flex items-center justify-between"
+          aria-label="Main navigation"
+        >
+          {/* Logo */}
           <a
             href="#"
-            className="nav-item heading-serif text-xl md:text-2xl text-cream md:absolute md:left-1/2 md:-translate-x-1/2"
+            className="nav-logo flex flex-col leading-none group"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           >
-            The Continental
+            <span className="heading-serif text-cream text-3xl md:text-4xl font-semibold tracking-tight group-hover:text-amber transition-colors duration-300">
+              Continental
+            </span>
+            <span className="section-label text-[0.55rem] mt-0.5 tracking-[0.3em]">
+              Est. 1924
+            </span>
           </a>
 
-          <div className="flex items-center gap-4 md:gap-6">
-            <button
-              type="button"
-              aria-label="Toggle menu"
-              className="nav-item md:hidden flex flex-col gap-1.5 p-2"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <span
-                className={`block h-px w-6 bg-cream transition-all duration-300 ${
-                  menuOpen ? "rotate-45 translate-y-[3.5px]" : ""
-                }`}
-              />
-              <span
-                className={`block h-px w-6 bg-cream transition-all duration-300 ${
-                  menuOpen ? "-rotate-45 -translate-y-[3.5px]" : ""
-                }`}
-              />
-            </button>
-          </div>
-        </nav>
-
-        <div
-          className={`hidden md:block h-px bg-white/10 mt-6 transition-opacity duration-500 ${
-            scrolled ? "opacity-0" : "opacity-100"
-          }`}
-        />
-
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-500 ${
-            menuOpen ? "max-h-64 mt-6" : "max-h-0"
-          }`}
-        >
-          <div className="flex flex-col gap-4 pb-4 border-t border-white/10 pt-6">
+          {/* Desktop nav links */}
+          <ul className="hidden md:flex items-center gap-9" role="list">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="nav-link text-lg"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </a>
+              <li key={link.label} className="nav-item">
+                <a
+                  href={link.href}
+                  className="nav-link text-base font-semibold tracking-wide"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
+                >
+                  {link.label}
+                </a>
+              </li>
             ))}
+          </ul>
+
+          {/* Desktop CTA */}
+          <div className="hidden md:flex items-center nav-reserve">
             <a
-              href="#reserve"
-              className="btn-amber rounded-full px-6 py-3 text-sm text-center mt-2"
-              onClick={() => setMenuOpen(false)}
+              href="#booking"
+              className="btn-amber rounded-full px-8 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)]"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick("#booking");
+              }}
             >
               Reserve Now
             </a>
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            className="md:hidden flex flex-col gap-[5px] p-2 group"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <span
+              className={`block h-px w-6 bg-cream transition-all duration-300 origin-center ${
+                menuOpen ? "rotate-45 translate-y-[7px]" : ""
+              }`}
+            />
+            <span
+              className={`block h-px bg-cream transition-all duration-300 ${
+                menuOpen ? "w-0 opacity-0" : "w-4"
+              }`}
+            />
+            <span
+              className={`block h-px w-6 bg-cream transition-all duration-300 origin-center ${
+                menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+              }`}
+            />
+          </button>
+        </nav>
+      </header>
+
+      {/* Mobile full-screen menu */}
+      <div
+        id="mobile-menu"
+        ref={mobileMenuRef}
+        className="fixed inset-0 z-40 bg-midnight flex flex-col justify-center px-8"
+        style={{ visibility: "hidden", opacity: 0 }}
+        aria-hidden={!menuOpen}
+      >
+        {/* Decorative watermark */}
+        <span
+          aria-hidden
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 heading-serif text-[22vw] text-white/[0.03] select-none pointer-events-none whitespace-nowrap"
+        >
+          Continental
+        </span>
+
+        <ul className="space-y-1" role="list">
+          {navLinks.map((link, i) => (
+            <li key={link.label}>
+              <a
+                ref={(el) => (mobileLinksRef.current[i] = el)}
+                href={link.href}
+                className="block heading-serif text-5xl sm:text-6xl text-cream/70 hover:text-amber transition-colors duration-300 py-3 border-b border-white/5"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.href);
+                }}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div
+          ref={(el) => (mobileLinksRef.current[navLinks.length] = el)}
+          className="mt-10"
+        >
+          <a
+            href="#booking"
+            className="btn-amber block text-center rounded-full py-4 text-sm font-semibold tracking-widest shadow-[0_0_32px_var(--amber-glow)]"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick("#booking");
+            }}
+          >
+            Reserve Now
+          </a>
         </div>
       </div>
-    </header>
+    </>
   );
 }

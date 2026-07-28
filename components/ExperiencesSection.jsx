@@ -19,12 +19,12 @@ const experiences = [
   {
     title: "Wine Country Excursion",
     image:
-      "https://images.unsplash.com/photo-1506377247377-828897a21244?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Stargazing on the Lake",
     image:
-      "https://images.unsplash.com/photo-1419242902214-272b359170b4?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Art Gallery Private Viewing",
