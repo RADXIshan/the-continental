@@ -15,9 +15,12 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "The Continental — Timeless Luxury Awaits",
+  title: "The Continental",
   description:
     "Experience unparalleled elegance at The Continental. A sanctuary where heritage meets modern refinement.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }) {

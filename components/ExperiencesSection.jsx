@@ -5,6 +5,8 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const experiences = [
   {
     title: "Private Yacht Charter",
@@ -87,9 +89,9 @@ export default function ExperiencesSection() {
           </p>
         </div>
 
-        {/* Accordion photo strip */}
+        {/* Accordion photo strip — horizontal scroll on mobile, accordion on md+ */}
         <div
-          className="exp-strip flex gap-2 md:gap-3"
+          className="exp-strip hidden md:flex gap-3"
           style={{ height: "clamp(380px, 62vh, 680px)" }}
         >
           {experiences.map((exp, i) => {
@@ -176,8 +178,38 @@ export default function ExperiencesSection() {
           })}
         </div>
 
-        {/* Dot navigation */}
-        <div className="flex items-center gap-2 mt-6 justify-end">
+        {/* Mobile: horizontal scroll cards */}
+        <div className="md:hidden flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-none -mx-6 px-6">
+          {experiences.map((exp) => (
+            <div
+              key={exp.title}
+              className="relative shrink-0 w-[78vw] rounded-sm overflow-hidden snap-start"
+              style={{ height: "clamp(300px, 55vw, 420px)" }}
+            >
+              <Image
+                src={exp.image}
+                alt={exp.title}
+                fill
+                className="object-cover"
+                sizes="78vw"
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(5,12,24,0.92) 0%, rgba(5,12,24,0.3) 55%, transparent 100%)" }} />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <p className="section-label text-amber/70 mb-2">{exp.label}</p>
+                <h3 className="heading-serif text-xl text-cream mb-2">{exp.title}</h3>
+                <a href="#booking" className="inline-flex items-center gap-2 text-amber text-xs font-semibold tracking-widest uppercase">
+                  Enquire
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Dot navigation — desktop only */}
+        <div className="hidden md:flex items-center gap-2 mt-6 justify-end">
           {experiences.map((_, i) => (
             <button
               key={i}

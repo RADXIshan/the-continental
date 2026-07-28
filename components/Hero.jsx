@@ -5,6 +5,8 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Hero() {
   const sectionRef = useRef(null);
 
@@ -18,7 +20,7 @@ export default function Hero() {
           trigger: sectionRef.current,
           start: "top top",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -30,7 +32,7 @@ export default function Hero() {
           trigger: sectionRef.current,
           start: "top top",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -41,7 +43,7 @@ export default function Hero() {
           trigger: sectionRef.current,
           start: "top top",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -53,7 +55,7 @@ export default function Hero() {
           trigger: sectionRef.current,
           start: "top top",
           end: "60% top",
-          scrub: true,
+          scrub: 1,
         },
       });
     }, sectionRef);
@@ -64,9 +66,9 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen min-h-175 overflow-hidden"
+      className="relative h-screen min-h-[700px] overflow-hidden"
     >
-      <div className="hero-bg absolute inset-0 scale-110">
+      <div className="hero-bg absolute inset-0 scale-110" style={{ willChange: "transform" }}>
         <Image
           src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2400&auto=format&fit=crop"
           alt="The Continental — luxury lakeside retreat at night"
@@ -77,21 +79,21 @@ export default function Hero() {
         />
       </div>
 
-      <div className="hero-overlay absolute inset-0 bg-linear-to-b from-midnight/75 via-midnight/30 to-midnight/50 opacity-60" />
+      <div className="hero-overlay absolute inset-0 bg-gradient-to-b from-midnight/75 via-midnight/30 to-midnight/50 opacity-60" />
 
-      <div className="hero-watermark absolute inset-0 flex items-start justify-center pt-[12vh] md:pt-[8vh] pointer-events-none">
+      <div className="hero-watermark absolute inset-0 flex items-start justify-center pt-[12vh] md:pt-[8vh] pointer-events-none" style={{ willChange: "transform, opacity" }}>
         <h1
           aria-hidden
-          className="watermark-text text-[18vw] md:text-[16vw] leading-none whitespace-nowrap"
+          className="watermark-text text-[22vw] sm:text-[18vw] md:text-[16vw] leading-none whitespace-nowrap"
         >
           Continental
         </h1>
       </div>
 
-      <div className="hero-content relative z-10 flex h-full flex-col justify-end pb-10 md:pb-16 px-6 md:px-10 max-w-350 mx-auto">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
+      <div className="hero-content relative z-10 flex h-full flex-col justify-end pb-10 md:pb-16 px-6 md:px-10 max-w-[1400px] mx-auto" style={{ willChange: "transform, opacity" }}>
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-10">
           <div className="max-w-2xl">
-            <h2 className="heading-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-cream font-semibold">
+            <h2 className="heading-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-cream font-semibold">
               <span className="line-reveal block">
                 <span
                   className="hero-line-1 block"
@@ -111,7 +113,7 @@ export default function Hero() {
             </h2>
 
             <p
-              className="hero-subtext mt-6 text-muted text-lg md:text-xl max-w-md leading-relaxed font-medium"
+              className="hero-subtext mt-5 text-muted text-base md:text-lg max-w-md leading-relaxed font-medium"
               style={{ opacity: 0, transform: "translateY(16px)" }}
             >
               A sanctuary of refined luxury nestled where starlit waters meet
@@ -120,7 +122,7 @@ export default function Hero() {
           </div>
 
           <div
-            className="hero-search glass-pill flex items-center rounded-full p-2 pl-6 max-w-md w-full lg:w-auto lg:min-w-95"
+            className="hero-search glass-pill flex items-center rounded-full p-2 pl-5 w-full sm:max-w-md lg:w-auto lg:min-w-[380px]"
             style={{ opacity: 0, transform: "translateX(60px)" }}
           >
             <input
@@ -130,7 +132,7 @@ export default function Hero() {
             />
             <button
               type="button"
-              className="btn-amber rounded-full px-6 py-3 text-sm shrink-0"
+              className="btn-amber rounded-full px-5 py-3 text-sm shrink-0"
             >
               Search
             </button>
@@ -144,7 +146,7 @@ export default function Hero() {
           <span className="section-label text-[0.6rem] text-white/40">
             Scroll to explore
           </span>
-          <div className="w-px h-12 bg-linear-to-b from-amber/60 to-transparent animate-pulse" />
+          <div className="w-px h-12 bg-gradient-to-b from-amber/60 to-transparent animate-pulse" />
         </div>
       </div>
     </section>

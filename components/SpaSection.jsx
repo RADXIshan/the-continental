@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const treatments = [
   {
@@ -36,54 +38,29 @@ const treatments = [
   },
 ];
 
-function CursorImage({ visible, position, src, alt }) {
-  return (
-    <div
-      className="pointer-events-none fixed z-200 w-44 h-56 overflow-hidden rounded-sm shadow-[0_24px_60px_rgba(0,0,0,0.7)]"
-      style={{
-        left: position.x,
-        top: position.y,
-        transform: "translate(-50%, -50%)",
-        opacity: visible ? 1 : 0,
-        transition: "opacity 0.25s ease",
-      }}
-    >
-      {src && (
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          className="object-cover"
-          sizes="176px"
-        />
-      )}
-      <div className="absolute inset-0 bg-midnight/20" />
-    </div>
-  );
-}
-
 export default function SpaSection() {
   const sectionRef = useRef(null);
-  const [cursor, setCursor] = useState({ visible: false, x: 0, y: 0, src: "", alt: "" });
-  const rafRef = useRef(null);
+  // Cursor image — managed entirely via GSAP/DOM to avoid React re-renders
+  const cursorRef = useRef(null);
+  const cursorImgRef = useRef(null);
   const targetPos = useRef({ x: 0, y: 0 });
   const currentPos = useRef({ x: 0, y: 0 });
+  const rafRef = useRef(null);
 
-  // Smooth cursor follow via RAF
+  // Smooth cursor follow via RAF — no setState, pure DOM mutation
   useEffect(() => {
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
     const move = (e) => {
       targetPos.current = { x: e.clientX, y: e.clientY };
     };
-    window.addEventListener("mousemove", move);
+    window.addEventListener("mousemove", move, { passive: true });
 
     const loop = () => {
-      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.12;
-      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.12;
-      setCursor((prev) =>
-        prev.visible
-          ? { ...prev, x: currentPos.current.x, y: currentPos.current.y }
-          : prev
-      );
+      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.1;
+      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.1;
+      cursor.style.transform = `translate(${currentPos.current.x - 88}px, ${currentPos.current.y - 112}px)`;
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
@@ -95,17 +72,18 @@ export default function SpaSection() {
   }, []);
 
   const handleRowEnter = (treatment) => {
-    setCursor({
-      visible: true,
-      x: currentPos.current.x,
-      y: currentPos.current.y,
-      src: treatment.image,
-      alt: treatment.name,
-    });
+    const cursor = cursorRef.current;
+    const img = cursorImgRef.current;
+    if (!cursor || !img) return;
+    img.src = treatment.image;
+    img.alt = treatment.name;
+    gsap.to(cursor, { opacity: 1, duration: 0.25, ease: "power2.out" });
   };
 
   const handleRowLeave = () => {
-    setCursor((prev) => ({ ...prev, visible: false }));
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+    gsap.to(cursor, { opacity: 0, duration: 0.2, ease: "power2.in" });
   };
 
   useEffect(() => {
@@ -117,7 +95,7 @@ export default function SpaSection() {
           trigger: sectionRef.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -128,7 +106,7 @@ export default function SpaSection() {
           trigger: sectionRef.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -216,12 +194,22 @@ export default function SpaSection() {
 
   return (
     <>
-      <CursorImage
-        visible={cursor.visible}
-        position={{ x: cursor.x, y: cursor.y }}
-        src={cursor.src}
-        alt={cursor.alt}
-      />
+      {/* Cursor image — positioned & shown via GSAP, no React re-renders */}
+      <div
+        ref={cursorRef}
+        className="pointer-events-none fixed z-[200] w-44 h-56 overflow-hidden rounded-sm shadow-[0_24px_60px_rgba(0,0,0,0.7)]"
+        style={{ top: 0, left: 0, opacity: 0, willChange: "transform, opacity" }}
+        aria-hidden
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          ref={cursorImgRef}
+          src={null}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-midnight/20" />
+      </div>
 
       <section
         ref={sectionRef}

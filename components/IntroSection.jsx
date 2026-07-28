@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function IntroSection() {
   const sectionRef = useRef(null);
 
@@ -63,8 +65,8 @@ export default function IntroSection() {
           end: "bottom 30%",
           scrub: 1,
         },
-        y: 80,
-        scale: 1.08,
+        y: 60,
+        scale: 1.06,
         ease: "none",
       });
     }, sectionRef);
@@ -128,12 +130,13 @@ export default function IntroSection() {
             </div>
           </div>
 
-          <div className="intro-image-wrap relative aspect-3/4 rounded-sm overflow-hidden">
+          <div className="intro-image-wrap relative aspect-[3/4] rounded-sm overflow-hidden">
             <div
               className="intro-image absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage:
                   "url(https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop)",
+                willChange: "transform",
               }}
             />
             <div className="absolute inset-0 bg-linear-to-t from-midnight/60 to-transparent" />

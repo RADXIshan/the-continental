@@ -5,20 +5,21 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function BookingSection() {
   const sectionRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.to(".booking-bg", {
-        yPercent: 25,
-        scale: 1.1,
+        yPercent: 20,
         ease: "none",
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
         },
       });
 

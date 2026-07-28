@@ -5,6 +5,8 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function DiningSection() {
   const sectionRef = useRef(null);
 
@@ -17,7 +19,7 @@ export default function DiningSection() {
           trigger: sectionRef.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
         },
       });
 
@@ -49,9 +51,9 @@ export default function DiningSection() {
           trigger: sectionRef.current,
           start: "top 75%",
           end: "bottom 30%",
-          scrub: 1.5,
+          scrub: 1,
         },
-        y: 100,
+        y: 80,
         opacity: 0,
         ease: "none",
       });
@@ -75,7 +77,7 @@ export default function DiningSection() {
     <section
       ref={sectionRef}
       id="dining"
-      className="relative py-24 md:py-40 overflow-hidden"
+      className="relative py-24 md:py-40"
     >
       <div className="dining-bg absolute inset-0 opacity-20">
         <Image
@@ -116,9 +118,9 @@ export default function DiningSection() {
             </a>
           </div>
 
-          <div className="lg:col-span-7 relative">
+          <div className="lg:col-span-7 relative pb-16 lg:pb-0">
             <div
-              className="dining-image-main relative aspect-4/5 md:aspect-5/4 overflow-hidden rounded-sm"
+              className="dining-image-main relative aspect-[4/5] md:aspect-[5/4] overflow-hidden rounded-sm"
               style={{ clipPath: "inset(0 0 0 0)" }}
             >
               <Image
@@ -130,7 +132,7 @@ export default function DiningSection() {
               />
             </div>
 
-            <div className="dining-image-secondary absolute -bottom-12 -left-6 md:-left-12 w-48 md:w-64 aspect-square overflow-hidden rounded-sm border-4 border-midnight shadow-2xl">
+            <div className="dining-image-secondary absolute -bottom-0 lg:-bottom-12 -left-0 lg:-left-12 w-36 md:w-48 lg:w-64 aspect-square overflow-hidden rounded-sm border-4 border-midnight shadow-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=600&auto=format&fit=crop"
                 alt="Chef's preparation"
