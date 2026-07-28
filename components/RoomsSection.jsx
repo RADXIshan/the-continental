@@ -14,19 +14,21 @@ export default function RoomsSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const track = trackRef.current;
-      const totalScroll = track.scrollWidth - window.innerWidth;
+      const viewportWidth = track?.parentElement?.clientWidth || window.innerWidth;
+      const totalScroll = Math.max(track.scrollWidth - viewportWidth, 0);
 
       gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth),
-        ease: "none",
+        x: () => -totalScroll,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
           end: () => `+=${totalScroll}`,
           pin: true,
-          scrub: 2,
+          pinSpacing: true,
+          scrub: 1.2,
           invalidateOnRefresh: true,
-          anticipatePin: 1,
+          anticipatePin: 0.15,
         },
       });
 
@@ -62,7 +64,7 @@ export default function RoomsSection() {
         <div className="flex-1 flex items-center min-h-0 pb-8">
           <div
             ref={trackRef}
-            className="horizontal-scroll-panel flex gap-6 md:gap-8 pl-6 md:pl-10 pr-6 items-center"
+            className="horizontal-scroll-panel flex gap-6 md:gap-8 pl-6 md:pl-10 pr-6 items-center will-change-transform"
           >
           {rooms.map((room, i) => (
             <article

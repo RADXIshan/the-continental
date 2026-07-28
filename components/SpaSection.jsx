@@ -52,21 +52,34 @@ export default function SpaSection() {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
+    cursor.style.visibility = "hidden";
+    cursor.style.opacity = "0";
+
+    let cursorWidth = cursor.offsetWidth;
+    let cursorHeight = cursor.offsetHeight;
+
+    const updateCursorSize = () => {
+      cursorWidth = cursor.offsetWidth;
+      cursorHeight = cursor.offsetHeight;
+    };
+
     const move = (e) => {
       targetPos.current = { x: e.clientX, y: e.clientY };
     };
     window.addEventListener("mousemove", move, { passive: true });
+    window.addEventListener("resize", updateCursorSize);
 
     const loop = () => {
-      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.1;
-      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.1;
-      cursor.style.transform = `translate(${currentPos.current.x - 88}px, ${currentPos.current.y - 112}px)`;
+      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.14;
+      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.14;
+      cursor.style.transform = `translate3d(${currentPos.current.x - cursorWidth / 2}px, ${currentPos.current.y - cursorHeight / 2}px, 0)`;
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
       window.removeEventListener("mousemove", move);
+      window.removeEventListener("resize", updateCursorSize);
       cancelAnimationFrame(rafRef.current);
     };
   }, []);
@@ -77,13 +90,27 @@ export default function SpaSection() {
     if (!cursor || !img) return;
     img.src = treatment.image;
     img.alt = treatment.name;
-    gsap.to(cursor, { opacity: 1, duration: 0.25, ease: "power2.out" });
+    cursor.style.visibility = "visible";
+    gsap.killTweensOf(cursor);
+    gsap.to(cursor, { opacity: 1, duration: 0.22, ease: "power2.out" });
   };
 
   const handleRowLeave = () => {
     const cursor = cursorRef.current;
     if (!cursor) return;
-    gsap.to(cursor, { opacity: 0, duration: 0.2, ease: "power2.in" });
+    gsap.killTweensOf(cursor);
+    gsap.to(cursor, {
+      opacity: 0,
+      duration: 0.18,
+      ease: "power2.in",
+      onComplete: () => {
+        cursor.style.visibility = "hidden";
+      },
+    });
+  };
+
+  const handleTreatmentsGridLeave = () => {
+    handleRowLeave();
   };
 
   useEffect(() => {
@@ -197,18 +224,19 @@ export default function SpaSection() {
       {/* Cursor image — positioned & shown via GSAP, no React re-renders */}
       <div
         ref={cursorRef}
-        className="pointer-events-none fixed z-[200] w-44 h-56 overflow-hidden rounded-sm shadow-[0_24px_60px_rgba(0,0,0,0.7)]"
-        style={{ top: 0, left: 0, opacity: 0, willChange: "transform, opacity" }}
+        className="pointer-events-none fixed z-200 w-64 h-72 md:w-72 md:h-80 overflow-hidden rounded-3xl border border-white/10 shadow-[0_28px_64px_rgba(0,0,0,0.7)]"
+        style={{ top: 0, left: 0, opacity: 0, visibility: "hidden", willChange: "transform, opacity" }}
         aria-hidden
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           ref={cursorImgRef}
-          src={null}
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
           alt=""
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover scale-[1.03] transition-transform duration-700 ease-out"
+          style={{ transformOrigin: "center center" }}
         />
-        <div className="absolute inset-0 bg-midnight/20" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-midnight/10 to-midnight/50" />
       </div>
 
       <section
@@ -308,7 +336,10 @@ export default function SpaSection() {
           </div>
 
           {/* ── Bottom: treatments list with cursor hover image ── */}
-          <div className="spa-treatments-grid border-t border-white/8 pt-16 md:pt-20">
+          <div
+            className="spa-treatments-grid border-t border-white/8 pt-16 md:pt-20"
+            onMouseLeave={handleTreatmentsGridLeave}
+          >
             <p className="section-label text-white/30 mb-10">Signature Treatments</p>
             <div className="divide-y divide-white/8">
               {treatments.map((t) => (
