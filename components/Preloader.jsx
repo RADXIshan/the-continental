@@ -84,30 +84,28 @@ export default function Preloader({ onComplete }) {
       .to([svgLineLeftRef.current, svgLineRightRef.current],
         { autoAlpha: 1, duration: 0.4, ease: "power2.out" }, "-=0.3");
 
-    // Phase 3 — straight curtain exit with buttery smooth reveal
+    // Phase 3 — curtain exit: slide apart cleanly
     tl.to([leftSvgRef.current, rightSvgRef.current], {
       xPercent: (index) => index === 0 ? -100 : 100,
-      duration: 1.8,
-      ease: "power2.inOut",
+      duration: 1.6,
+      ease: "expo.inOut",
       onStart() {
-        // Signal to show content early in the curtain animation
-        gsap.delayedCall(0.4, () => {
-          preloaderState.hasPlayed = true;
-          onCompleteRef.current?.();
-        });
+        // Signal content to become visible right as curtains begin moving,
+        // but delay the hero entrance animation until curtains have cleared
+        preloaderState.hasPlayed = true;
+        onCompleteRef.current?.();
       },
-      // Curtains fully off-screen
       onComplete() {
         document.body.style.overflow = "";
       },
     }, "-=0.1");
 
-    // Fade out preloader container gradually as curtains open
-    tl.to(containerRef.current, { 
-      autoAlpha: 0, 
-      duration: 1.0, 
-      ease: "power2.inOut" 
-    }, "-=1.4");
+    // Fade out the entire preloader wrap in sync with curtains clearing
+    tl.to(containerRef.current, {
+      autoAlpha: 0,
+      duration: 0.5,
+      ease: "power2.inOut",
+    }, "-=0.5");
 
     return () => {
       // cleanup only kills tweens, not the hasRun guard
@@ -127,8 +125,8 @@ export default function Preloader({ onComplete }) {
       >
         <defs>
           <linearGradient id="curtainGradL" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#050c18" />
-            <stop offset="100%" stopColor="#050c18" />
+            <stop offset="0%"   stopColor="#040b16" />
+            <stop offset="100%" stopColor="#081525" />
           </linearGradient>
         </defs>
         <path ref={leftPathRef} fill="url(#curtainGradL)" />
@@ -152,8 +150,8 @@ export default function Preloader({ onComplete }) {
       >
         <defs>
           <linearGradient id="curtainGradR" x1="100%" y1="0%" x2="0%" y2="0%">
-            <stop offset="0%"   stopColor="#050c18" />
-            <stop offset="100%" stopColor="#050c18" />
+            <stop offset="0%"   stopColor="#040b16" />
+            <stop offset="100%" stopColor="#081525" />
           </linearGradient>
         </defs>
         <path ref={rightPathRef} fill="url(#curtainGradR)" />
@@ -184,16 +182,24 @@ export default function Preloader({ onComplete }) {
             xmlns="http://www.w3.org/2000/svg"
             className="preloader-monogram-svg"
           >
-            <circle cx="40" cy="40" r="38" stroke="var(--amber)" strokeWidth="0.6" />
-            <circle cx="40" cy="40" r="32" stroke="var(--amber)" strokeWidth="0.3" opacity="0.45" />
+            {/* Outer ring */}
+            <circle cx="40" cy="40" r="37" stroke="var(--amber)" strokeWidth="0.5" opacity="0.9" />
+            {/* Middle ring */}
+            <circle cx="40" cy="40" r="31" stroke="var(--amber)" strokeWidth="0.25" opacity="0.35" />
+            {/* Corner tick marks */}
+            <line x1="40" y1="3"  x2="40" y2="8"  stroke="var(--amber)" strokeWidth="0.5" opacity="0.5" />
+            <line x1="40" y1="72" x2="40" y2="77" stroke="var(--amber)" strokeWidth="0.5" opacity="0.5" />
+            <line x1="3"  y1="40" x2="8"  y2="40" stroke="var(--amber)" strokeWidth="0.5" opacity="0.5" />
+            <line x1="72" y1="40" x2="77" y2="40" stroke="var(--amber)" strokeWidth="0.5" opacity="0.5" />
+            {/* Monogram text */}
             <text
-              x="40" y="50"
+              x="40" y="48"
               textAnchor="middle"
               fill="var(--amber)"
               fontFamily="Georgia, serif"
-              fontSize="22"
+              fontSize="20"
               fontWeight="300"
-              letterSpacing="2"
+              letterSpacing="3"
             >
               TC
             </text>
@@ -224,16 +230,28 @@ export default function Preloader({ onComplete }) {
 
 function OrnamentDiamond() {
   return (
-    <svg width="40" height="8" viewBox="0 0 40 8" fill="none">
-      <line x1="0" y1="4" x2="16" y2="4" stroke="var(--amber)" strokeWidth="0.5" opacity="0.6" />
+    <svg width="72" height="10" viewBox="0 0 72 10" fill="none">
+      <line x1="0"  y1="5" x2="28" y2="5" stroke="var(--amber)" strokeWidth="0.5" opacity="0.35" />
+      <line x1="0"  y1="5" x2="14" y2="5" stroke="var(--amber)" strokeWidth="0.5" opacity="0.6" />
       <rect
-        x="17.5" y="1.5"
-        width="5" height="5"
-        transform="rotate(45 20 4)"
-        fill="var(--amber)"
-        opacity="0.9"
+        x="31" y="2"
+        width="6" height="6"
+        transform="rotate(45 34 5)"
+        fill="none"
+        stroke="var(--amber)"
+        strokeWidth="0.6"
+        opacity="0.8"
       />
-      <line x1="24" y1="4" x2="40" y2="4" stroke="var(--amber)" strokeWidth="0.5" opacity="0.6" />
+      {/* Inner diamond fill */}
+      <rect
+        x="32.5" y="3.5"
+        width="3" height="3"
+        transform="rotate(45 34 5)"
+        fill="var(--amber)"
+        opacity="0.6"
+      />
+      <line x1="44" y1="5" x2="72" y2="5" stroke="var(--amber)" strokeWidth="0.5" opacity="0.35" />
+      <line x1="58" y1="5" x2="72" y2="5" stroke="var(--amber)" strokeWidth="0.5" opacity="0.6" />
     </svg>
   );
 }

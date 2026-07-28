@@ -65,8 +65,18 @@ export default function PageTransition() {
       const logo = document.createElement("div");
       logo.className = "page-transition-logo";
       logo.innerHTML = `
+        <div class="page-transition-logo__ornament">
+          <svg width="72" height="10" viewBox="0 0 72 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0"  y1="5" x2="28" y2="5" stroke="#e8a849" stroke-width="0.5" opacity="0.35" />
+            <line x1="0"  y1="5" x2="14" y2="5" stroke="#e8a849" stroke-width="0.5" opacity="0.6" />
+            <rect x="31" y="2" width="6" height="6" transform="rotate(45 34 5)" fill="none" stroke="#e8a849" stroke-width="0.6" opacity="0.8" />
+            <rect x="32.5" y="3.5" width="3" height="3" transform="rotate(45 34 5)" fill="#e8a849" opacity="0.6" />
+            <line x1="44" y1="5" x2="72" y2="5" stroke="#e8a849" stroke-width="0.5" opacity="0.35" />
+            <line x1="58" y1="5" x2="72" y2="5" stroke="#e8a849" stroke-width="0.5" opacity="0.6" />
+          </svg>
+        </div>
         <span class="page-transition-logo__wordmark">Continental</span>
-        <span class="page-transition-logo__est">Est. 1924</span>
+        <span class="page-transition-logo__est">Est.&nbsp;&nbsp;1924</span>
       `;
       overlay.appendChild(logo);
       document.body.appendChild(overlay);

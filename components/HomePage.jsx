@@ -23,34 +23,30 @@ export default function HomePage() {
   const contentRef  = useRef(null);
   const progressRef = useRef(null);
 
-  // Called by Preloader as curtains start opening
+  // Called by Preloader once curtains start sliding open
   const handlePreloaderComplete = useCallback(() => {
     const content = contentRef.current;
     if (!content) return;
 
-    // Ultra-smooth, coordinated page entrance with faster hero/navbar
-    gsap.timeline({ 
-      onStart: () => {
-        gsap.set(content, { visibility: "visible" });
-      },
-      onComplete: () => ScrollTrigger.refresh() 
-    })
-      // Extended, buttery-smooth main fade
-      .fromTo(content, 
-        { opacity: 0 },
-        { opacity: 1, duration: 1.2, ease: "power1.inOut" }
-      )
-      // Navbar - faster and snappier
-      .from(".nav-logo",    { y: -20, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.8")
-      .from(".nav-item",    { y: -16, opacity: 0, duration: 0.6, stagger: 0.06, ease: "power2.out" }, "-=0.5")
-      .from(".nav-reserve", { y: -16, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.4")
-      // Hero headline - faster, more responsive
-      .to(".hero-line-1",   { y: 0, duration: 1.0, ease: "power2.out" }, "-=0.4")
-      .to(".hero-line-2",   { y: 0, duration: 1.0, ease: "power2.out" }, "-=0.75")
-      // Hero supporting elements - quicker appearance
-      .to(".hero-subtext",    { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.6")
-      .to(".hero-search",     { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" }, "-=0.6")
-      .to(".hero-scroll-hint",{ opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "-=0.5");
+    // Make content visible immediately (curtains are still covering it)
+    gsap.set(content, { visibility: "visible", opacity: 1 });
+
+    // Curtain slide takes 1.6s with expo.inOut — hero entrance begins after
+    // curtains have fully cleared (~1.5s), so elements animate in clean air.
+    const curtainDuration = 1.6;
+
+    gsap.timeline({ delay: curtainDuration - 0.05, onComplete: () => ScrollTrigger.refresh() })
+      // Navbar drops in first
+      .from(".nav-logo",    { y: -18, opacity: 0, duration: 0.65, ease: "power3.out" })
+      .from(".nav-item",    { y: -14, opacity: 0, duration: 0.55, stagger: 0.055, ease: "power3.out" }, "-=0.45")
+      .from(".nav-reserve", { y: -14, opacity: 0, duration: 0.55, ease: "power3.out" }, "-=0.35")
+      // Hero headline rises up
+      .to(".hero-line-1",   { y: 0, duration: 1.1, ease: "power3.out" }, "-=0.45")
+      .to(".hero-line-2",   { y: 0, duration: 1.1, ease: "power3.out" }, "-=0.85")
+      // Supporting elements
+      .to(".hero-subtext",     { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, "-=0.65")
+      .to(".hero-search",      { opacity: 1, x: 0, duration: 0.9, ease: "power2.out" }, "-=0.75")
+      .to(".hero-scroll-hint", { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "-=0.6");
 
     // Scroll progress bar — independent
     gsap.to(progressRef.current, {
