@@ -130,7 +130,7 @@ export default function IntroSection() {
             </div>
           </div>
 
-          <div className="intro-image-wrap relative aspect-[3/4] rounded-sm overflow-hidden">
+          <div className="intro-image-wrap relative aspect-3/4 rounded-sm overflow-hidden">
             <div
               className="intro-image absolute inset-0 bg-cover bg-center"
               style={{
