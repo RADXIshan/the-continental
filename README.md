@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# The Continental
 
-## Getting Started
+A premium hotel landing experience built with modern React and Next.js. The Continental showcases luxurious suites, dining, spa treatments, curated experiences, testimonials, and a booking section with elegant motion and smooth scrolling.
 
-First, run the development server:
+## Project overview
+
+The Continental is a hospitality-style landing page designed to feel immersive and refined. It includes:
+
+- Animated hero and page transitions
+- Smooth scrolling and scroll-linked progress
+- Responsive rooms section with pinned horizontal scroll on desktop
+- Dedicated suites route for full accommodation details
+- Sections for dining, spa treatments, experiences, testimonials, partners, and reservations
+- Tailwind-powered styling with custom fonts and dark, editorial design
+
+## Tech stack
+
+- Next.js 16 App Router
+- React 19
+- Tailwind CSS v4 via `@tailwindcss/postcss`
+- GSAP for animated entrances and scroll-driven transitions
+- Lenis for smooth scroll behavior
+- `next/image` for optimized image rendering
+- `@tailwindcss/postcss` for Tailwind integration in PostCSS
+
+## Key app structure
+
+- `app/`
+  - `layout.js` — root layout and metadata
+  - `page.js` — home page entry point
+  - `suites/page.js` — suites listing route
+- `components/` — reusable page sections and UI components
+- `lib/` — shared data and state helpers
+- `public/` — static assets and icons
+
+## Features
+
+- Fully responsive landing experience for desktop and mobile
+- Animated preloader and reveal animations using GSAP
+- Horizontal room carousel with pinning on larger screens
+- Smooth nested scrolling via a custom `SmoothScroll` wrapper
+- Remote image support for Unsplash content via Next.js remote patterns
+
+## Getting started
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 to view the site.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Build and production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build the application for production:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the production server locally:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Linting
 
-## Deploy on Vercel
+Run ESLint:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run lint
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+This project is optimized for Vercel, but it can be deployed on any platform that supports Next.js 16.
+
+## Notes
+
+- The project uses the Next.js App Router and client components for animation-heavy sections.
+- Fonts are loaded with `next/font` and exposed via CSS variables in `app/layout.js`.
+- Remote image loading is configured in `next.config.mjs` for `images.unsplash.com`.
+- Tailwind v4 is enabled through `postcss.config.mjs` with `@tailwindcss/postcss`.
