@@ -124,52 +124,52 @@ export default function RoomsSection() {
         </div>
       </div>
 
-      {/* Mobile: native snap horizontal scroll — no JS, no jank */}
+      {/* Mobile: Vertical grid layout */}
       <div className="md:hidden py-12 sm:py-16 px-6">
-        <div className="rooms-header mb-6 sm:mb-8">
+        <div className="rooms-header mb-8 sm:mb-12">
           <p className="section-label mb-3 sm:mb-4 text-[0.65rem] sm:text-xs">Chapter II — Accommodations</p>
           <h2 className="heading-serif text-3xl sm:text-4xl text-cream max-w-xs">
             Suites crafted for the discerning traveler
           </h2>
         </div>
 
-        <div className="flex gap-4 sm:gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-6 px-6 pb-4">
+        <div className="flex flex-col gap-8 sm:gap-10 mb-8 sm:mb-12">
           {rooms.map((room, i) => (
             <article
               key={room.name}
-              className="shrink-0 w-[82vw] snap-start"
+              className="flex flex-col gap-4"
             >
-              <div className="relative overflow-hidden rounded-sm mb-3 sm:mb-4" style={{ height: "clamp(200px, 52vw, 320px)" }}>
+              <div className="relative overflow-hidden rounded-sm" style={{ height: "clamp(240px, 60vw, 340px)" }}>
                 <Image
                   src={room.image}
                   alt={room.name}
                   fill
                   className="object-cover"
-                  sizes="82vw"
+                  sizes="100vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-midnight/80 via-transparent to-transparent" />
                 <span className="absolute top-4 sm:top-5 left-4 sm:left-5 section-label text-white/60 text-[0.65rem] sm:text-xs">0{i + 1}</span>
               </div>
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="heading-serif text-xl sm:text-2xl text-cream mb-0.5 sm:mb-1">{room.name}</h3>
-                  <p className="text-muted text-xs sm:text-sm">{room.desc}</p>
+              <div>
+                <h3 className="heading-serif text-xl sm:text-2xl text-cream mb-2">{room.name}</h3>
+                <p className="text-muted text-xs sm:text-sm mb-3">{room.desc}</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-amber text-sm sm:text-base font-medium">{room.price}</p>
                 </div>
-                <p className="text-amber text-xs sm:text-sm whitespace-nowrap font-medium">{room.price}</p>
               </div>
             </article>
           ))}
+        </div>
 
-          <div className="shrink-0 w-[50vw] flex items-center justify-center snap-start">
-            <Link href="/suites" className="group flex flex-col items-center gap-2 sm:gap-3 text-center">
-              <span className="w-14 sm:w-16 h-14 sm:h-16 rounded-full border border-amber/40 flex items-center justify-center group-active:bg-amber/10">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-amber">
-                  <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <span className="section-label text-[0.55rem] sm:text-[0.6rem]">View all suites</span>
-            </Link>
-          </div>
+        <div className="flex justify-center pt-4 sm:pt-6">
+          <Link href="/suites" className="group flex flex-col items-center gap-3 text-center">
+            <span className="w-14 sm:w-16 h-14 sm:h-16 rounded-full border border-amber/40 flex items-center justify-center group-active:bg-amber/10">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-amber">
+                <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span className="section-label text-[0.6rem]">View all suites</span>
+          </Link>
         </div>
       </div>
     </section>
