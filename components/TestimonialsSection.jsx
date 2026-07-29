@@ -50,15 +50,20 @@ export default function TestimonialsSection() {
   const quoteRefs = useRef([]);
   const progressRef = useRef(null);
   const progressTlRef = useRef(null);
+  // Stable ref so startTimer closure never goes stale
+  const activeRef = useRef(0);
+  const transitioningRef = useRef(false);
 
   const goTo = useCallback(
     (next) => {
-      if (transitioning || next === active) return;
+      if (transitioningRef.current || next === activeRef.current) return;
+      transitioningRef.current = true;
       setTransitioning(true);
-      setPrev(active);
 
-      // Animate out current quote text
-      const currentEl = quoteRefs.current[active];
+      const currentIdx = activeRef.current;
+      setPrev(currentIdx);
+
+      const currentEl = quoteRefs.current[currentIdx];
       const nextEl = quoteRefs.current[next];
 
       if (currentEl && nextEl) {
@@ -67,7 +72,9 @@ export default function TestimonialsSection() {
         const tl = gsap.timeline({
           onComplete: () => {
             setPrev(null);
+            activeRef.current = next;
             setActive(next);
+            transitioningRef.current = false;
             setTransitioning(false);
           },
         });
@@ -83,24 +90,23 @@ export default function TestimonialsSection() {
           { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
         );
       } else {
+        activeRef.current = next;
         setActive(next);
+        transitioningRef.current = false;
         setTransitioning(false);
       }
     },
-    [active, transitioning]
+    [] // stable — reads from refs
   );
 
-  // Auto-advance with progress bar
+  // Stable startTimer — only created once, reads activeRef
   const startTimer = useCallback(() => {
     if (progressTlRef.current) progressTlRef.current.kill();
     if (progressRef.current) {
       const tl = gsap.timeline({
         onComplete: () => {
-          setActive((cur) => {
-            const next = (cur + 1) % testimonials.length;
-            goTo(next);
-            return cur; // goTo handles it
-          });
+          const next = (activeRef.current + 1) % testimonials.length;
+          goTo(next);
         },
       });
       tl.fromTo(
@@ -110,14 +116,15 @@ export default function TestimonialsSection() {
       );
       progressTlRef.current = tl;
     }
-  }, [goTo]);
+  }, [goTo]); // goTo is now stable too
 
+  // Restart timer whenever active changes
   useEffect(() => {
     startTimer();
     return () => {
       if (progressTlRef.current) progressTlRef.current.kill();
     };
-  }, [active]);
+  }, [active, startTimer]);
 
   // Section entrance animation
   useEffect(() => {

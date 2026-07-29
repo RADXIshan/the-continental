@@ -256,8 +256,7 @@ export default function SuitesPage() {
       {/* ── Filter bar ───────────────────────────────────────── */}
       <div
         ref={filterBarRef}
-        className="sticky z-40 bg-midnight/95 backdrop-blur-md border-b border-white/5 py-5"
-        style={{ top: "calc(1.5rem + 56px)" }}
+        className="sticky top-17 md:top-19 z-40 bg-midnight/95 backdrop-blur-md border-b border-white/5 py-5"
       >
         <div className="max-w-350 mx-auto px-6 md:px-10">
           <div className="flex items-center gap-3 flex-wrap">

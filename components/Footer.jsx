@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const footerLinks = {
   Explore: ["Suites & Rooms", "Dining", "Spa & Wellness", "Experiences"],
   Hotel: ["Our Story", "Gallery", "Awards", "Sustainability"],

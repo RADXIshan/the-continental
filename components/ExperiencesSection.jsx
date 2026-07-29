@@ -101,8 +101,9 @@ export default function ExperiencesSection() {
                 key={exp.title}
                 className="relative overflow-hidden rounded-sm cursor-pointer shrink-0 group"
                 style={{
-                  flex: isActive ? "4 0 0%" : "1 0 0%",
-                  transition: "flex 0.7s cubic-bezier(0.76, 0, 0.24, 1)",
+                  width: isActive ? "calc(55% - 9px)" : "calc(11.25% - 9px)",
+                  transition: "width 0.7s cubic-bezier(0.76, 0, 0.24, 1)",
+                  willChange: "width",
                 }}
                 onMouseEnter={() => setActiveIndex(i)}
                 role="button"

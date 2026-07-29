@@ -48,15 +48,21 @@ export default function SpaSection() {
   const rafRef = useRef(null);
 
   // Smooth cursor follow via RAF — no setState, pure DOM mutation
+  // Only runs on non-touch devices, and only while the section is visible
   useEffect(() => {
     const cursor = cursorRef.current;
     if (!cursor) return;
+
+    // Skip on touch-primary devices (no hover cursor)
+    const isTouchDevice = window.matchMedia("(hover: none)").matches;
+    if (isTouchDevice) return;
 
     cursor.style.visibility = "hidden";
     cursor.style.opacity = "0";
 
     let cursorWidth = cursor.offsetWidth;
     let cursorHeight = cursor.offsetHeight;
+    let isRunning = false;
 
     const updateCursorSize = () => {
       cursorWidth = cursor.offsetWidth;
@@ -69,18 +75,50 @@ export default function SpaSection() {
     window.addEventListener("mousemove", move, { passive: true });
     window.addEventListener("resize", updateCursorSize);
 
-    const loop = () => {
-      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.14;
-      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.14;
-      cursor.style.transform = `translate3d(${currentPos.current.x - cursorWidth / 2}px, ${currentPos.current.y - cursorHeight / 2}px, 0)`;
+    const startLoop = () => {
+      if (isRunning) return;
+      isRunning = true;
+      const loop = () => {
+        currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.14;
+        currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.14;
+        cursor.style.transform = `translate3d(${currentPos.current.x - cursorWidth / 2}px, ${currentPos.current.y - cursorHeight / 2}px, 0)`;
+        if (isRunning) rafRef.current = requestAnimationFrame(loop);
+      };
       rafRef.current = requestAnimationFrame(loop);
     };
-    rafRef.current = requestAnimationFrame(loop);
+
+    const stopLoop = () => {
+      isRunning = false;
+      cancelAnimationFrame(rafRef.current);
+    };
+
+    // Use IntersectionObserver to only run RAF when section is visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startLoop();
+          } else {
+            stopLoop();
+            // Hide cursor when section leaves viewport
+            if (cursor) {
+              gsap.killTweensOf(cursor);
+              cursor.style.visibility = "hidden";
+              cursor.style.opacity = "0";
+            }
+          }
+        });
+      },
+      { threshold: 0 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
 
     return () => {
       window.removeEventListener("mousemove", move);
       window.removeEventListener("resize", updateCursorSize);
-      cancelAnimationFrame(rafRef.current);
+      stopLoop();
+      observer.disconnect();
     };
   }, []);
 
@@ -115,6 +153,11 @@ export default function SpaSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Promote parallax and clip-path layers before scrub animations begin
+      gsap.set(".spa-main-img", { willChange: "transform" });
+      gsap.set(".spa-portrait-img", { willChange: "transform" });
+      gsap.set(".spa-main-frame", { willChange: "clip-path, transform" });
+
       gsap.to(".spa-main-img", {
         yPercent: 12,
         ease: "none",
@@ -345,7 +388,7 @@ export default function SpaSection() {
               {treatments.map((t) => (
                 <div
                   key={t.name}
-                  className="spa-treatment-row group grid md:grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 cursor-none"
+                  className="spa-treatment-row group grid md:grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 md:cursor-none"
                   onMouseEnter={() => handleRowEnter(t)}
                   onMouseLeave={handleRowLeave}
                 >

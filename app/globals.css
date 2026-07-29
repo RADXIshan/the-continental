@@ -371,6 +371,28 @@ body {
   }
 }
 
+/* ─── Scrollbar hide utility ────────────────────────────────── */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Mobile touch improvements ─────────────────────────────── */
+/* Horizontal scroll containers should scroll naturally on touch */
+.snap-x {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent double-tap zoom on interactive elements */
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
+}
+
 /* ─── Page Transition ───────────────────────────────────────── */
 .page-transition-overlay {
   position: fixed;

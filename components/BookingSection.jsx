@@ -12,6 +12,8 @@ export default function BookingSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      gsap.set(".booking-bg", { willChange: "transform" });
+
       gsap.to(".booking-bg", {
         yPercent: 20,
         ease: "none",

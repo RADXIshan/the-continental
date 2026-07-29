@@ -12,6 +12,10 @@ export default function DiningSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Set will-change before scrub animations to promote layers early
+      gsap.set(".dining-bg", { willChange: "transform" });
+      gsap.set(".dining-image-main", { willChange: "clip-path, transform" });
+
       gsap.to(".dining-bg", {
         yPercent: 20,
         ease: "none",

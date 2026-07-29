@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -132,13 +133,17 @@ export default function IntroSection() {
 
           <div className="intro-image-wrap relative aspect-3/4 rounded-sm overflow-hidden">
             <div
-              className="intro-image absolute inset-0 bg-cover bg-center"
-              style={{
-                backgroundImage:
-                  "url(https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop)",
-                willChange: "transform",
-              }}
-            />
+              className="intro-image absolute inset-0"
+              style={{ willChange: "transform" }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop"
+                alt="The Continental Grand Lobby"
+                fill
+                className="object-cover object-center scale-[1.06]"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
             <div className="absolute inset-0 bg-linear-to-t from-midnight/60 to-transparent" />
             <div className="absolute bottom-8 left-8 right-8">
               <p className="section-label mb-2">Grand Lobby</p>

@@ -9,11 +9,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }) {
   useEffect(() => {
+    // Reduce smoothness on touch/mobile — native scroll feels better there
+    const isTouchDevice = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: isTouchDevice ? 1.0 : 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      touchMultiplier: isTouchDevice ? 1.2 : 1.5,
+      // Prevent scroll smoothing from interfering with pinned scroll sections
+      wheelMultiplier: 1,
     });
 
     // Expose lenis globally so other components can control it
