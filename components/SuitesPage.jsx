@@ -83,7 +83,7 @@ function SuiteCard({ room, index, onReserve }) {
       {/* Image pane */}
       <div
         className="relative overflow-hidden lg:[direction:ltr]"
-        style={{ minHeight: "360px" }}
+        style={{ minHeight: "clamp(280px, 50vw, 360px)" }}
       >
         <Image
           src={room.image}
@@ -108,13 +108,13 @@ function SuiteCard({ room, index, onReserve }) {
       </div>
 
       {/* Content pane */}
-      <div className="lg:[direction:ltr] flex flex-col justify-center p-8 md:p-12 gap-6">
+      <div className="lg:[direction:ltr] flex flex-col justify-center p-6 sm:p-8 md:p-12 gap-4 sm:gap-6">
         <div>
-          <p className="section-label mb-3">{room.size} &bull; {room.guests}</p>
-          <h2 className="heading-serif text-3xl md:text-4xl text-cream mb-3">
+          <p className="section-label mb-2 sm:mb-3 text-[0.7rem] sm:text-xs">{room.size} &bull; {room.guests}</p>
+          <h2 className="heading-serif text-2xl sm:text-3xl md:text-4xl text-cream mb-2 sm:mb-3">
             {room.name}
           </h2>
-          <p className="text-muted text-base leading-relaxed">
+          <p className="text-muted text-sm sm:text-base leading-relaxed">
             {room.longDesc}
           </p>
         </div>
@@ -133,12 +133,12 @@ function SuiteCard({ room, index, onReserve }) {
         </ul>
 
         {/* Price + CTA */}
-        <div className="flex items-center justify-between pt-2 border-t border-white/8">
-          <p className="text-amber text-lg font-semibold">{room.price}<span className="text-muted text-sm font-normal"> / night</span></p>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 sm:pt-2 border-t border-white/8">
+          <p className="text-amber text-base sm:text-lg font-semibold">{room.price}<span className="text-muted text-xs sm:text-sm font-normal"> / night</span></p>
           <button
             type="button"
             onClick={() => onReserve(room)}
-            className="btn-amber rounded-full px-7 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
+            className="btn-amber rounded-full px-5 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber w-full sm:w-auto text-center"
           >
             Reserve
           </button>
@@ -213,7 +213,7 @@ export default function SuitesPage() {
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative pt-40 pb-20 md:pt-48 md:pb-24 px-6 md:px-10 overflow-hidden"
+        className="relative pt-32 pb-16 sm:pt-40 md:pt-48 md:pb-24 px-6 md:px-10 overflow-hidden"
       >
         {/* Background image with overlay */}
         <div className="absolute inset-0 pointer-events-none">
@@ -237,8 +237,8 @@ export default function SuitesPage() {
         </span>
 
         <div className="relative z-10 max-w-350 mx-auto">
-          <p className="suites-hero-label section-label mb-6">Chapter II — Accommodations</p>
-          <h1 className="suites-hero-h1 heading-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-cream max-w-3xl">
+          <p className="suites-hero-label section-label mb-4 sm:mb-6 text-[0.65rem] sm:text-xs">Chapter II — Accommodations</p>
+          <h1 className="suites-hero-h1 heading-serif text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-cream max-w-3xl">
             <span className="line-reveal block">
               <span className="line-reveal-inner block" style={{ transform: "translateY(110%)" }}>Every stay,</span>
             </span>
@@ -246,7 +246,7 @@ export default function SuitesPage() {
               <span className="line-reveal-inner block" style={{ transform: "translateY(110%)" }}>a world apart.</span>
             </span>
           </h1>
-          <p className="suites-hero-sub mt-6 text-muted text-lg md:text-xl max-w-xl leading-relaxed" style={{ opacity: 0, transform: "translateY(16px)" }}>
+          <p className="suites-hero-sub mt-4 sm:mt-6 text-muted text-base sm:text-lg md:text-xl max-w-xl leading-relaxed" style={{ opacity: 0, transform: "translateY(16px)" }}>
             Five distinct residences, each a complete world of its own. Choose
             your sanctuary.
           </p>
@@ -286,7 +286,7 @@ export default function SuitesPage() {
 
       {/* ── Suite cards ──────────────────────────────────────── */}
       <main
-        className="max-w-350 mx-auto px-6 md:px-10 py-16 md:py-24 flex flex-col gap-12 md:gap-16"
+        className="max-w-350 mx-auto px-6 md:px-10 py-12 sm:py-16 md:py-24 flex flex-col gap-8 sm:gap-12 md:gap-16"
         id="suites-list"
       >
         {filtered.length === 0 ? (
@@ -301,21 +301,21 @@ export default function SuitesPage() {
       </main>
 
       {/* ── Bottom CTA ───────────────────────────────────────── */}
-      <section className="border-t border-white/8 py-24 px-6 md:px-10 text-center">
-        <p className="section-label mb-5">Ready to arrive?</p>
-        <h2 className="heading-serif text-4xl md:text-5xl text-cream mb-8 max-w-lg mx-auto leading-tight">
+      <section className="border-t border-white/8 py-16 sm:py-20 md:py-24 px-6 md:px-10 text-center">
+        <p className="section-label mb-4 sm:mb-5 text-[0.65rem] sm:text-xs">Ready to arrive?</p>
+        <h2 className="heading-serif text-3xl sm:text-4xl md:text-5xl text-cream mb-6 sm:mb-8 max-w-lg mx-auto leading-tight">
           Your suite awaits
         </h2>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <Link
             href="/#booking"
-            className="btn-amber inline-block rounded-full px-10 py-4 text-sm font-semibold tracking-widest shadow-[0_0_40px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
+            className="btn-amber inline-block rounded-full px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm font-semibold tracking-widest shadow-[0_0_40px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber w-full sm:w-auto text-center"
           >
             Reserve Now
           </Link>
           <Link
             href="/"
-            className="glass-pill inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-sm font-semibold tracking-wide text-cream hover:text-amber hover:border-amber/30 transition-all duration-300 group focus-visible:outline-2 focus-visible:outline-amber"
+            className="glass-pill inline-flex items-center justify-center gap-2.5 rounded-full px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-semibold tracking-wide text-cream hover:text-amber hover:border-amber/30 transition-all duration-300 group focus-visible:outline-2 focus-visible:outline-amber w-full sm:w-auto"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden className="group-hover:-translate-x-1 transition-transform duration-300">
               <path

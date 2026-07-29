@@ -139,7 +139,7 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg border border-white/12 bg-deep-blue/95 backdrop-blur-xl shadow-2xl opacity-0"
+        className="relative w-full max-w-2xl max-h-[85vh] sm:max-h-[88vh] md:max-h-[90vh] overflow-y-auto rounded-lg border border-white/12 bg-deep-blue/95 backdrop-blur-xl shadow-2xl opacity-0"
         onClick={(e) => e.stopPropagation()}
         style={{ boxShadow: "0 0 60px rgba(232, 168, 73, 0.15), 0 20px 60px rgba(0,0,0,0.4)" }}
       >
@@ -162,7 +162,7 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
         </button>
 
         {/* Header with treatment image */}
-        <div className="relative overflow-hidden rounded-t-lg" style={{ height: "220px" }}>
+        <div className="relative overflow-hidden rounded-t-lg" style={{ height: "clamp(160px, 40vw, 220px)" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             ref={headerImgRef}
@@ -171,28 +171,28 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
             className="absolute inset-0 w-full h-full object-cover scale-105"
           />
           <div className="absolute inset-0 bg-linear-to-t from-deep-blue via-deep-blue/50 to-transparent" />
-          <div className="absolute bottom-6 left-8">
-            <p className="section-label mb-2">Spa Treatment</p>
-            <h2 className="heading-serif text-3xl md:text-4xl text-cream">{activeTreatment.name}</h2>
-            <div className="flex items-center gap-3 mt-2">
-              <span className="text-amber font-medium tracking-widest uppercase text-xs">
+          <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 left-4 sm:left-6 md:left-8">
+            <p className="section-label mb-1 sm:mb-2 text-[0.65rem] sm:text-xs">Spa Treatment</p>
+            <h2 className="heading-serif text-2xl sm:text-3xl md:text-4xl text-cream">{activeTreatment.name}</h2>
+            <div className="flex items-center gap-2 sm:gap-3 mt-1 sm:mt-2">
+              <span className="text-amber font-medium tracking-widest uppercase text-[0.65rem] sm:text-xs">
                 {activeTreatment.duration}
               </span>
-              <span className="text-white/30 text-xs">·</span>
-              <span className="text-cream/60 text-xs font-medium tracking-wide">{activeTreatment.price}</span>
+              <span className="text-white/30 text-[0.65rem] sm:text-xs">·</span>
+              <span className="text-cream/60 text-[0.65rem] sm:text-xs font-medium tracking-wide">{activeTreatment.price}</span>
             </div>
           </div>
         </div>
 
         {/* Treatment description */}
-        <div className="px-8 pt-6 pb-5 border-b border-white/8">
-          <p className="text-muted text-sm md:text-base leading-relaxed">{activeTreatment.desc}</p>
+        <div className="px-4 sm:px-6 md:px-8 pt-4 sm:pt-5 md:pt-6 pb-3 sm:pb-4 md:pb-5 border-b border-white/8">
+          <p className="text-muted text-xs sm:text-sm md:text-base leading-relaxed">{activeTreatment.desc}</p>
         </div>
 
         {/* ── Treatment selector ── */}
-        <div className="px-8 py-6 border-b border-white/8">
-          <p className="text-xs text-white/40 tracking-widest uppercase mb-4">Choose Treatment</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 border-b border-white/8">
+          <p className="text-[0.65rem] sm:text-xs text-white/40 tracking-widest uppercase mb-3 sm:mb-4">Choose Treatment</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
             {ALL_TREATMENTS.map((t) => {
               const isActive = activeTreatment.name === t.name;
               return (
@@ -200,7 +200,7 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
                   key={t.name}
                   type="button"
                   onClick={() => setSelectedName(t.name)}
-                  className={`text-left rounded-md px-4 py-3.5 border transition-all duration-300 focus-visible:outline-2 focus-visible:outline-amber ${
+                  className={`text-left rounded-md px-3 sm:px-4 py-2 sm:py-3.5 border transition-all duration-300 focus-visible:outline-2 focus-visible:outline-amber ${
                     isActive
                       ? "border-amber/60 bg-amber/8 text-cream"
                       : "border-white/8 bg-midnight/30 text-muted hover:border-white/20 hover:text-cream"
@@ -208,12 +208,12 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p className={`text-sm font-semibold tracking-wide truncate ${isActive ? "text-cream" : "text-cream/70"}`}>
+                      <p className={`text-xs sm:text-sm font-semibold tracking-wide truncate ${isActive ? "text-cream" : "text-cream/70"}`}>
                         {t.name}
                       </p>
-                      <p className="text-xs text-muted mt-0.5">{t.duration}</p>
+                      <p className="text-[0.65rem] sm:text-xs text-muted mt-0.5">{t.duration}</p>
                     </div>
-                    <span className={`shrink-0 text-xs font-semibold tracking-wide mt-0.5 ${isActive ? "text-amber" : "text-white/30"}`}>
+                    <span className={`shrink-0 text-[0.65rem] sm:text-xs font-semibold tracking-wide mt-0.5 ${isActive ? "text-amber" : "text-white/30"}`}>
                       {t.price}
                     </span>
                   </div>
@@ -230,13 +230,13 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
         </div>
 
         {/* Booking form */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6">
           {/* Guest Information */}
           <div>
-            <h3 className="text-cream text-lg font-semibold mb-4 tracking-wide">Your Details</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h3 className="text-cream text-base sm:text-lg font-semibold mb-3 sm:mb-4 tracking-wide">Your Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label htmlFor="spa-firstName" className="block text-sm text-muted mb-2 tracking-wide">
+                <label htmlFor="spa-firstName" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                   First Name *
                 </label>
                 <input
@@ -244,12 +244,12 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
                   id="spa-firstName"
                   name="firstName"
                   required
-                  className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
                   placeholder="John"
                 />
               </div>
               <div>
-                <label htmlFor="spa-lastName" className="block text-sm text-muted mb-2 tracking-wide">
+                <label htmlFor="spa-lastName" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                   Last Name *
                 </label>
                 <input
@@ -257,7 +257,7 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
                   id="spa-lastName"
                   name="lastName"
                   required
-                  className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
                   placeholder="Doe"
                 />
               </div>
@@ -265,9 +265,9 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
           </div>
 
           {/* Contact */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label htmlFor="spa-email" className="block text-sm text-muted mb-2 tracking-wide">
+              <label htmlFor="spa-email" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                 Email Address *
               </label>
               <input
@@ -275,12 +275,12 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
                 id="spa-email"
                 name="email"
                 required
-                className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
                 placeholder="john.doe@example.com"
               />
             </div>
             <div>
-              <label htmlFor="spa-phone" className="block text-sm text-muted mb-2 tracking-wide">
+              <label htmlFor="spa-phone" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                 Phone Number *
               </label>
               <input
@@ -288,7 +288,7 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
                 id="spa-phone"
                 name="phone"
                 required
-                className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
                 placeholder="+1 (555) 000-0000"
               />
             </div>
@@ -296,10 +296,10 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
 
           {/* Appointment Details */}
           <div>
-            <h3 className="text-cream text-lg font-semibold mb-4 tracking-wide">Appointment Details</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h3 className="text-cream text-base sm:text-lg font-semibold mb-3 sm:mb-4 tracking-wide">Appointment Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label htmlFor="spa-date" className="block text-sm text-muted mb-2 tracking-wide">
+                <label htmlFor="spa-date" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                   Preferred Date *
                 </label>
                 <input
@@ -307,18 +307,18 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
                   id="spa-date"
                   name="date"
                   required
-                  className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
                 />
               </div>
               <div>
-                <label htmlFor="spa-time" className="block text-sm text-muted mb-2 tracking-wide">
+                <label htmlFor="spa-time" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                   Preferred Time *
                 </label>
                 <select
                   id="spa-time"
                   name="time"
                   required
-                  className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
                 >
                   <option value="">Select a time</option>
                   <option value="09:00">9:00 AM</option>
@@ -336,14 +336,14 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
 
           {/* Guests */}
           <div>
-            <label htmlFor="spa-guests" className="block text-sm text-muted mb-2 tracking-wide">
+            <label htmlFor="spa-guests" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
               Number of Guests *
             </label>
             <select
               id="spa-guests"
               name="guests"
               required
-              className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300"
             >
               <option value="">Select number of guests</option>
               <option value="1">1 Guest</option>
@@ -361,36 +361,36 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
 
           {/* Special requests */}
           <div>
-            <label htmlFor="spa-requests" className="block text-sm text-muted mb-2 tracking-wide">
+            <label htmlFor="spa-requests" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
               Special Requests (Optional)
             </label>
             <textarea
               id="spa-requests"
               name="specialRequests"
               rows="3"
-              className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300 resize-none"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 transition-all duration-300 resize-none"
               placeholder="Allergies, preferences, or anything we should know…"
             />
           </div>
 
           {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-4">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4">
             <button
               type="submit"
-              className="flex-1 btn-amber rounded-full px-8 py-4 text-sm font-semibold tracking-widest shadow-[0_0_30px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
+              className="flex-1 btn-amber rounded-full px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-semibold tracking-widest shadow-[0_0_30px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
             >
               Book {activeTreatment.name}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="glass-pill rounded-full px-8 py-4 text-sm font-semibold tracking-wide text-muted hover:text-cream hover:border-amber/30 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-amber"
+              className="glass-pill rounded-full px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-semibold tracking-wide text-muted hover:text-cream hover:border-amber/30 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-amber"
             >
               Cancel
             </button>
           </div>
 
-          <p className="text-xs text-muted/60 text-center leading-relaxed">
+          <p className="text-[0.65rem] sm:text-xs text-muted/60 text-center leading-relaxed">
             Our spa concierge will confirm your appointment within 24 hours.
             Cancellations accepted up to 48 hours in advance.
           </p>

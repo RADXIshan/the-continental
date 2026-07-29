@@ -102,7 +102,7 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg border border-white/12 bg-deep-blue/95 backdrop-blur-xl shadow-2xl opacity-0"
+        className="relative w-full max-w-2xl max-h-[85vh] sm:max-h-[88vh] md:max-h-[90vh] overflow-y-auto rounded-lg border border-white/12 bg-deep-blue/95 backdrop-blur-xl shadow-2xl opacity-0"
         onClick={(e) => e.stopPropagation()}
         style={{
           boxShadow: "0 0 60px rgba(232, 168, 73, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4)",
@@ -127,12 +127,12 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
         </button>
 
         {/* Header */}
-        <div className="relative border-b border-white/8 px-8 pt-8 pb-6">
-          <p className="section-label mb-3">Reserve Your Stay</p>
-          <h2 className="heading-serif text-3xl md:text-4xl text-cream mb-2">
+        <div className="relative border-b border-white/8 px-6 sm:px-8 pt-6 sm:pt-8 pb-4 sm:pb-6">
+          <p className="section-label mb-2 sm:mb-3 text-[0.65rem] sm:text-xs">Reserve Your Stay</p>
+          <h2 className="heading-serif text-2xl sm:text-3xl md:text-4xl text-cream mb-2">
             {suite.name}
           </h2>
-          <div className="flex items-center gap-3 text-muted text-sm">
+          <div className="flex items-center gap-3 text-muted text-xs sm:text-sm">
             <span>{suite.size}</span>
             <span>&bull;</span>
             <span>{suite.guests}</span>
@@ -142,13 +142,13 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-4 sm:space-y-6">
           {/* Guest Information */}
           <div>
-            <h3 className="text-cream text-lg font-semibold mb-4 tracking-wide">Guest Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h3 className="text-cream text-base sm:text-lg font-semibold mb-3 sm:mb-4 tracking-wide">Guest Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label htmlFor="firstName" className="block text-sm text-muted mb-2 tracking-wide">
+                <label htmlFor="firstName" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                   First Name *
                 </label>
                 <input
@@ -156,12 +156,12 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
                   id="firstName"
                   name="firstName"
                   required
-                  className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
                   placeholder="John"
                 />
               </div>
               <div>
-                <label htmlFor="lastName" className="block text-sm text-muted mb-2 tracking-wide">
+                <label htmlFor="lastName" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                   Last Name *
                 </label>
                 <input
@@ -169,7 +169,7 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
                   id="lastName"
                   name="lastName"
                   required
-                  className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
                   placeholder="Doe"
                 />
               </div>
@@ -177,9 +177,9 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
           </div>
 
           {/* Contact Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label htmlFor="email" className="block text-sm text-muted mb-2 tracking-wide">
+              <label htmlFor="email" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                 Email Address *
               </label>
               <input
@@ -187,12 +187,12 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
                 id="email"
                 name="email"
                 required
-                className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
                 placeholder="john.doe@example.com"
               />
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm text-muted mb-2 tracking-wide">
+              <label htmlFor="phone" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                 Phone Number *
               </label>
               <input
@@ -200,7 +200,7 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
                 id="phone"
                 name="phone"
                 required
-                className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
                 placeholder="+1 (555) 000-0000"
               />
             </div>
@@ -208,10 +208,10 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
 
           {/* Stay Details */}
           <div>
-            <h3 className="text-cream text-lg font-semibold mb-4 tracking-wide">Stay Details</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h3 className="text-cream text-base sm:text-lg font-semibold mb-3 sm:mb-4 tracking-wide">Stay Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label htmlFor="checkIn" className="block text-sm text-muted mb-2 tracking-wide">
+                <label htmlFor="checkIn" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                   Check-In Date *
                 </label>
                 <input
@@ -219,11 +219,11 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
                   id="checkIn"
                   name="checkIn"
                   required
-                  className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
                 />
               </div>
               <div>
-                <label htmlFor="checkOut" className="block text-sm text-muted mb-2 tracking-wide">
+                <label htmlFor="checkOut" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
                   Check-Out Date *
                 </label>
                 <input
@@ -231,21 +231,21 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
                   id="checkOut"
                   name="checkOut"
                   required
-                  className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
                 />
               </div>
             </div>
           </div>
 
           <div>
-            <label htmlFor="guests" className="block text-sm text-muted mb-2 tracking-wide">
+            <label htmlFor="guests" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
               Number of Guests *
             </label>
             <select
               id="guests"
               name="guests"
               required
-              className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300"
             >
               <option value="">Select number of guests</option>
               <option value="1">1 Guest</option>
@@ -263,24 +263,24 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
 
           {/* Special Requests */}
           <div>
-            <label htmlFor="specialRequests" className="block text-sm text-muted mb-2 tracking-wide">
+            <label htmlFor="specialRequests" className="block text-xs sm:text-sm text-muted mb-1.5 sm:mb-2 tracking-wide">
               Special Requests (Optional)
             </label>
             <textarea
               id="specialRequests"
               name="specialRequests"
               rows="3"
-              className="w-full px-4 py-3 rounded-md glass-pill text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300 resize-none"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-md glass-pill text-xs sm:text-sm text-cream bg-midnight/40 focus:outline-none focus:ring-2 focus:ring-amber/50 focus:border-amber/50 transition-all duration-300 resize-none"
               placeholder="Let us know if you have any special requests or requirements..."
             />
           </div>
 
           {/* Suite Features Reminder */}
-          <div className="border-t border-white/8 pt-6">
-            <p className="text-xs text-muted mb-3 tracking-wide uppercase">Included Features</p>
+          <div className="border-t border-white/8 pt-4 sm:pt-6">
+            <p className="text-xs text-muted mb-2 sm:mb-3 tracking-wide uppercase">Included Features</p>
             <div className="grid grid-cols-2 gap-2">
               {suite.features.slice(0, 4).map((feature) => (
-                <div key={feature} className="flex items-center gap-2 text-cream/70 text-sm">
+                <div key={feature} className="flex items-center gap-2 text-cream/70 text-xs sm:text-sm">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="shrink-0 text-amber">
                     <path
                       d="M2 6l2.8 2.8L10 3.2"
@@ -295,22 +295,22 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
               ))}
             </div>
             {suite.features.length > 4 && (
-              <p className="text-xs text-muted mt-2">+ {suite.features.length - 4} more amenities</p>
+              <p className="text-xs text-muted mt-1.5 sm:mt-2">+ {suite.features.length - 4} more amenities</p>
             )}
           </div>
 
           {/* Submit Button */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-4">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4">
             <button
               type="submit"
-              className="flex-1 btn-amber rounded-full px-8 py-4 text-sm font-semibold tracking-widest shadow-[0_0_30px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
+              className="flex-1 btn-amber rounded-full px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-semibold tracking-widest shadow-[0_0_30px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
             >
               Confirm Reservation
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="glass-pill rounded-full px-8 py-4 text-sm font-semibold tracking-wide text-muted hover:text-cream hover:border-amber/30 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-amber"
+              className="glass-pill rounded-full px-6 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-semibold tracking-wide text-muted hover:text-cream hover:border-amber/30 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-amber"
             >
               Cancel
             </button>
