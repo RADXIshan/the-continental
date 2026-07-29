@@ -223,7 +223,7 @@ export default function SuitesPage() {
             fill
             priority
             className="object-cover object-center opacity-20"
-            sizes="100vw"
+            sizes="(max-width: 640px) calc(100vw - 48px), (max-width: 1024px) calc(100vw - 80px), 100vw"
           />
           <div className="absolute inset-0 bg-linear-to-b from-midnight/60 via-midnight/80 to-midnight" />
         </div>

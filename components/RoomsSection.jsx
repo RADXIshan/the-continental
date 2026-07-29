@@ -145,7 +145,7 @@ export default function RoomsSection() {
                   alt={room.name}
                   fill
                   className="object-cover"
-                  sizes="100vw"
+                  sizes="(max-width: 768px) calc(100vw - 48px), 50vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-midnight/80 via-transparent to-transparent" />
                 <span className="absolute top-4 sm:top-5 left-4 sm:left-5 section-label text-white/60 text-[0.65rem] sm:text-xs">0{i + 1}</span>
