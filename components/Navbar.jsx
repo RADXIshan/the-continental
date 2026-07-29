@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
 import BookingSidePanel from "./BookingSidePanel";
@@ -17,6 +17,7 @@ const navLinks = [
 export default function Navbar() {
   const navRef = useRef(null);
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [bookingPanelOpen, setBookingPanelOpen] = useState(false);
@@ -65,9 +66,9 @@ export default function Navbar() {
       if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
       // Store the target section id so the home page can scroll to it
-      // after the preloader finishes revealing content.
+      // after the page transition finishes revealing content.
       sessionStorage.setItem("scrollTarget", href);
-      window.location.href = "/";
+      router.push("/");
     }
   };
 
@@ -77,7 +78,7 @@ export default function Navbar() {
     if (isHome) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      window.location.href = "/";
+      router.push("/");
     }
   };
 
