@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SpaTreatmentModal from "./SpaTreatmentModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,6 +41,7 @@ const treatments = [
 
 export default function SpaSection() {
   const sectionRef = useRef(null);
+  const [modalTreatment, setModalTreatment] = useState(null);
   // Cursor image — managed entirely via GSAP/DOM to avoid React re-renders
   const cursorRef = useRef(null);
   const cursorImgRef = useRef(null);
@@ -317,15 +319,16 @@ export default function SpaSection() {
                 cellular science.
               </p>
 
-              <a
-                href="#booking"
+              <button
+                type="button"
+                onClick={() => setModalTreatment(treatments[0])}
                 className="spa-cta inline-flex items-center gap-3 text-amber hover:gap-5 transition-all duration-300 text-sm font-semibold tracking-widest uppercase"
               >
                 Book a treatment
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </a>
+              </button>
 
               <div className="spa-stats grid grid-cols-3 gap-6 mt-16 pt-16 border-t border-white/8">
                 {[
@@ -391,6 +394,11 @@ export default function SpaSection() {
                   className="spa-treatment-row group grid md:grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 md:cursor-none"
                   onMouseEnter={() => handleRowEnter(t)}
                   onMouseLeave={handleRowLeave}
+                  onClick={() => setModalTreatment(t)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setModalTreatment(t); }}
+                  aria-label={`Book ${t.name}`}
                 >
                   <div className="md:col-span-1 flex items-start pt-1">
                     <span className="section-label text-white/25 group-hover:text-amber transition-colors duration-300">
@@ -402,12 +410,18 @@ export default function SpaSection() {
                       {t.name}
                     </h3>
                   </div>
-                  <div className="md:col-span-5">
+                  <div className="md:col-span-4">
                     <p className="text-muted text-sm md:text-base leading-relaxed">{t.desc}</p>
                   </div>
-                  <div className="md:col-span-2 flex md:justify-end items-start">
+                  <div className="md:col-span-3 flex md:justify-end items-start gap-4">
                     <span className="text-xs text-white/30 group-hover:text-amber/60 transition-colors duration-300 tracking-widest uppercase pt-1">
                       {t.duration}
+                    </span>
+                    <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-amber/0 group-hover:text-amber border border-amber/0 group-hover:border-amber/40 rounded-full px-3 py-1 transition-all duration-300 tracking-widest uppercase whitespace-nowrap">
+                      Book
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                     </span>
                   </div>
                 </div>
@@ -417,6 +431,12 @@ export default function SpaSection() {
 
         </div>
       </section>
+
+      <SpaTreatmentModal
+        isOpen={!!modalTreatment}
+        onClose={() => setModalTreatment(null)}
+        treatment={modalTreatment}
+      />
     </>
   );
 }

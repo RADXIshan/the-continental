@@ -55,15 +55,32 @@ export default function ReservationModal({ isOpen, onClose, suite }) {
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  // Prevent body scroll when modal is open
+  // Page scroll lock — stop Lenis and lock body scroll when open.
+  // We intercept wheel/touch events on the modal so they never reach Lenis,
+  // allowing the modal's own overflow-y scroll to work natively.
   useEffect(() => {
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const stopPropagation = (e) => e.stopPropagation();
+
     if (isOpen) {
+      window.lenis?.stop();
       document.body.style.overflow = "hidden";
+      modal.addEventListener("wheel", stopPropagation);
+      modal.addEventListener("touchmove", stopPropagation);
     } else {
+      window.lenis?.start();
       document.body.style.overflow = "";
+      modal.removeEventListener("wheel", stopPropagation);
+      modal.removeEventListener("touchmove", stopPropagation);
     }
+
     return () => {
+      window.lenis?.start();
       document.body.style.overflow = "";
+      modal.removeEventListener("wheel", stopPropagation);
+      modal.removeEventListener("touchmove", stopPropagation);
     };
   }, [isOpen]);
 

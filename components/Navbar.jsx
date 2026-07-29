@@ -64,8 +64,10 @@ export default function Navbar() {
       const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: "smooth" });
     } else {
-      // Navigate to home page with hash
-      window.location.href = `/${href}`;
+      // Store the target section id so the home page can scroll to it
+      // after the preloader finishes revealing content.
+      sessionStorage.setItem("scrollTarget", href);
+      window.location.href = "/";
     }
   };
 
@@ -129,12 +131,16 @@ export default function Navbar() {
                     {link.label}
                   </a>
                 ) : (
-                  <Link
+                  <a
                     href={`/${link.href}`}
                     className="nav-link text-base font-semibold tracking-wide"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(link.href);
+                    }}
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 )}
               </li>
             ))}
@@ -211,13 +217,17 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ) : (
-                <Link
+                <a
                   ref={(el) => (mobileLinksRef.current[i] = el)}
                   href={`/${link.href}`}
                   className="block heading-serif text-5xl sm:text-6xl text-cream/70 hover:text-amber transition-colors duration-300 py-3 border-b border-white/5"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
                 >
                   {link.label}
-                </Link>
+                </a>
               )}
             </li>
           ))}

@@ -24,6 +24,29 @@ export default function HomePage() {
   const contentRef  = useRef(null);
   const progressRef = useRef(null);
 
+  // Scroll to a section stored in sessionStorage (set by Navbar when
+  // navigating from a sub-page like /suites back to home).
+  const scrollToStoredTarget = useCallback((delay = 0) => {
+    const target = sessionStorage.getItem("scrollTarget");
+    if (!target) return;
+    sessionStorage.removeItem("scrollTarget");
+    const doScroll = () => {
+      const el = document.querySelector(target);
+      if (!el) return;
+      // Prefer Lenis for smooth animated scroll; fall back to native
+      if (window.lenis) {
+        window.lenis.scrollTo(el, { duration: 1.4, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+      } else {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+    if (delay > 0) {
+      setTimeout(doScroll, delay);
+    } else {
+      doScroll();
+    }
+  }, []);
+
   // Called by Preloader once curtains start sliding open
   const handlePreloaderComplete = useCallback(() => {
     const content = contentRef.current;
@@ -35,6 +58,10 @@ export default function HomePage() {
     // Curtain slide takes 1.6s with expo.inOut — hero entrance begins after
     // curtains have fully cleared (~1.5s), so elements animate in clean air.
     const curtainDuration = 1.6;
+
+    // After curtains clear and content is fully visible, scroll to the stored
+    // section target (if any) — e.g. when arriving from the suites page.
+    scrollToStoredTarget(curtainDuration * 1000 + 200);
 
     const ctx = gsap.context(() => {
       gsap.timeline({ delay: curtainDuration - 0.05, onComplete: () => ScrollTrigger.refresh() })
@@ -64,7 +91,7 @@ export default function HomePage() {
     }, content);
 
     return () => ctx.revert();
-  }, []);
+  }, [scrollToStoredTarget]);
 
   // If preloader already played (client-side nav back to home), snap everything
   // to its final visible state instantly — no animation needed.
@@ -102,8 +129,11 @@ export default function HomePage() {
 
     ScrollTrigger.refresh();
 
+    // Scroll to any stored section target after content is ready
+    scrollToStoredTarget(100);
+
     return () => ctx.revert();
-  }, []);
+  }, [scrollToStoredTarget]);
 
   return (
     <>
