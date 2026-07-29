@@ -13,6 +13,7 @@ import DiningSection from "./DiningSection";
 import SpaSection from "./SpaSection";
 import ExperiencesSection from "./ExperiencesSection";
 import TestimonialsSection from "./TestimonialsSection";
+import PartnersSection from "./PartnersSection";
 import BookingSection from "./BookingSection";
 import Footer from "./Footer";
 import { preloaderState } from "../lib/preloaderState";
@@ -126,6 +127,7 @@ export default function HomePage() {
             <SpaSection />
             <ExperiencesSection />
             <TestimonialsSection />
+            <PartnersSection />
             <BookingSection />
           </main>
           <Footer />

@@ -66,7 +66,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen min-h-175 overflow-hidden"
+      className="relative h-svh min-h-175 overflow-hidden md:h-screen"
     >
       <div className="hero-bg absolute inset-0 scale-110" style={{ willChange: "transform" }}>
         <Image
@@ -81,7 +81,7 @@ export default function Hero() {
 
       <div className="hero-overlay absolute inset-0 bg-linear-to-b from-midnight/75 via-midnight/30 to-midnight/50 opacity-60" />
 
-      <div className="hero-watermark absolute inset-0 flex items-start justify-center pt-[12vh] md:pt-[8vh] pointer-events-none" style={{ willChange: "transform, opacity" }}>
+      <div className="hero-watermark absolute inset-0 flex items-start justify-center pt-[12svh] md:pt-[8vh] pointer-events-none" style={{ willChange: "transform, opacity" }}>
         <h1
           aria-hidden
           className="watermark-text text-[22vw] sm:text-[18vw] md:text-[16vw] leading-none whitespace-nowrap"
