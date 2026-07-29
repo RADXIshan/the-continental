@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import gsap from "gsap";
+import BookingSidePanel from "./BookingSidePanel";
 
 const navLinks = [
   { label: "Suites", href: "#rooms" },
@@ -18,6 +19,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [bookingPanelOpen, setBookingPanelOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const mobileLinksRef = useRef([]);
 
@@ -77,6 +79,12 @@ export default function Navbar() {
     }
   };
 
+  const handleBookingClick = (e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    setBookingPanelOpen(true);
+  };
+
   return (
     <>
       <header
@@ -134,25 +142,13 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center nav-reserve">
-            {isHome ? (
-              <a
-                href="#booking"
-                className="btn-amber rounded-full px-8 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)]"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick("#booking");
-                }}
-              >
-                Reserve Now
-              </a>
-            ) : (
-              <Link
-                href="/#booking"
-                className="btn-amber rounded-full px-8 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)]"
-              >
-                Reserve Now
-              </Link>
-            )}
+            <button
+              type="button"
+              onClick={handleBookingClick}
+              className="btn-amber rounded-full px-8 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)]"
+            >
+              Reserve Now
+            </button>
           </div>
 
           {/* Mobile hamburger */}
@@ -231,27 +227,21 @@ export default function Navbar() {
           ref={(el) => (mobileLinksRef.current[navLinks.length] = el)}
           className="mt-10"
         >
-          {isHome ? (
-            <a
-              href="#booking"
-              className="btn-amber block text-center rounded-full py-4 text-sm font-semibold tracking-widest shadow-[0_0_32px_var(--amber-glow)]"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick("#booking");
-              }}
-            >
-              Reserve Now
-            </a>
-          ) : (
-            <Link
-              href="/#booking"
-              className="btn-amber block text-center rounded-full py-4 text-sm font-semibold tracking-widest shadow-[0_0_32px_var(--amber-glow)]"
-            >
-              Reserve Now
-            </Link>
-          )}
+          <button
+            type="button"
+            onClick={handleBookingClick}
+            className="btn-amber w-full text-center rounded-full py-4 text-sm font-semibold tracking-widest shadow-[0_0_32px_var(--amber-glow)]"
+          >
+            Reserve Now
+          </button>
         </div>
       </div>
+
+      {/* Booking Side Panel */}
+      <BookingSidePanel
+        isOpen={bookingPanelOpen}
+        onClose={() => setBookingPanelOpen(false)}
+      />
     </>
   );
 }

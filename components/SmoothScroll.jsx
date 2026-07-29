@@ -16,6 +16,9 @@ export default function SmoothScroll({ children }) {
       touchMultiplier: 1.5,
     });
 
+    // Expose lenis globally so other components can control it
+    window.lenis = lenis;
+
     lenis.on("scroll", ScrollTrigger.update);
 
     const tick = (time) => {
@@ -33,6 +36,7 @@ export default function SmoothScroll({ children }) {
       ScrollTrigger.removeEventListener("refresh", refresh);
       gsap.ticker.remove(tick);
       lenis.destroy();
+      delete window.lenis;
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);

@@ -66,7 +66,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen min-h-[700px] overflow-hidden"
+      className="relative h-screen min-h-175 overflow-hidden"
     >
       <div className="hero-bg absolute inset-0 scale-110" style={{ willChange: "transform" }}>
         <Image
@@ -79,7 +79,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="hero-overlay absolute inset-0 bg-gradient-to-b from-midnight/75 via-midnight/30 to-midnight/50 opacity-60" />
+      <div className="hero-overlay absolute inset-0 bg-linear-to-b from-midnight/75 via-midnight/30 to-midnight/50 opacity-60" />
 
       <div className="hero-watermark absolute inset-0 flex items-start justify-center pt-[12vh] md:pt-[8vh] pointer-events-none" style={{ willChange: "transform, opacity" }}>
         <h1
@@ -90,7 +90,7 @@ export default function Hero() {
         </h1>
       </div>
 
-      <div className="hero-content relative z-10 flex h-full flex-col justify-end pb-10 md:pb-16 px-6 md:px-10 max-w-[1400px] mx-auto" style={{ willChange: "transform, opacity" }}>
+      <div className="hero-content relative z-10 flex h-full flex-col justify-end pb-10 md:pb-16 px-6 md:px-10 max-w-350 mx-auto" style={{ willChange: "transform, opacity" }}>
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-10">
           <div className="max-w-2xl">
             <h2 className="heading-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-cream font-semibold">
@@ -122,7 +122,7 @@ export default function Hero() {
           </div>
 
           <div
-            className="hero-search glass-pill flex items-center rounded-full p-2 pl-5 w-full sm:max-w-md lg:w-auto lg:min-w-[380px]"
+            className="hero-search glass-pill flex items-center rounded-full p-2 pl-5 w-full sm:max-w-md lg:w-auto lg:min-w-95"
             style={{ opacity: 0, transform: "translateX(60px)" }}
           >
             <input
@@ -146,7 +146,7 @@ export default function Hero() {
           <span className="section-label text-[0.6rem] text-white/40">
             Scroll to explore
           </span>
-          <div className="w-px h-12 bg-gradient-to-b from-amber/60 to-transparent animate-pulse" />
+          <div className="w-px h-12 bg-linear-to-b from-amber/60 to-transparent animate-pulse" />
         </div>
       </div>
     </section>

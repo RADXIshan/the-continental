@@ -120,7 +120,7 @@ export default function DiningSection() {
 
           <div className="lg:col-span-7 relative pb-16 lg:pb-0">
             <div
-              className="dining-image-main relative aspect-[4/5] md:aspect-[5/4] overflow-hidden rounded-sm"
+              className="dining-image-main relative aspect-4/5 md:aspect-5/4 overflow-hidden rounded-sm"
               style={{ clipPath: "inset(0 0 0 0)" }}
             >
               <Image
@@ -132,7 +132,7 @@ export default function DiningSection() {
               />
             </div>
 
-            <div className="dining-image-secondary absolute -bottom-0 lg:-bottom-12 -left-0 lg:-left-12 w-36 md:w-48 lg:w-64 aspect-square overflow-hidden rounded-sm border-4 border-midnight shadow-2xl">
+            <div className="dining-image-secondary absolute bottom-0 lg:-bottom-12 left-0 lg:-left-12 w-36 md:w-48 lg:w-64 aspect-square overflow-hidden rounded-sm border-4 border-midnight shadow-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=600&auto=format&fit=crop"
                 alt="Chef's preparation"
