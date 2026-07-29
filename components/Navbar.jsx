@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import gsap from "gsap";
 
 const navLinks = [
@@ -13,10 +15,13 @@ const navLinks = [
 
 export default function Navbar() {
   const navRef = useRef(null);
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const mobileLinksRef = useRef([]);
+
+  const isHome = pathname === "/";
 
   // Scroll-based background
   useEffect(() => {
@@ -53,8 +58,23 @@ export default function Navbar() {
 
   const handleNavClick = (href) => {
     setMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (isHome) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Navigate to home page with hash
+      window.location.href = `/${href}`;
+    }
+  };
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    if (isHome) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.location.href = "/";
+    }
   };
 
   return (
@@ -73,12 +93,9 @@ export default function Navbar() {
         >
           {/* Logo */}
           <a
-            href="#"
+            href={isHome ? "#" : "/"}
             className="nav-logo flex flex-col leading-none group"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            onClick={handleLogoClick}
           >
             <span className="heading-serif text-cream text-3xl md:text-4xl font-semibold tracking-tight group-hover:text-amber transition-colors duration-300">
               Continental
@@ -92,32 +109,50 @@ export default function Navbar() {
           <ul className="hidden md:flex items-center gap-9" role="list">
             {navLinks.map((link) => (
               <li key={link.label} className="nav-item">
-                <a
-                  href={link.href}
-                  className="nav-link text-base font-semibold tracking-wide"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(link.href);
-                  }}
-                >
-                  {link.label}
-                </a>
+                {isHome ? (
+                  <a
+                    href={link.href}
+                    className="nav-link text-base font-semibold tracking-wide"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(link.href);
+                    }}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    href={`/${link.href}`}
+                    className="nav-link text-base font-semibold tracking-wide"
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center nav-reserve">
-            <a
-              href="#booking"
-              className="btn-amber rounded-full px-8 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)]"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick("#booking");
-              }}
-            >
-              Reserve Now
-            </a>
+            {isHome ? (
+              <a
+                href="#booking"
+                className="btn-amber rounded-full px-8 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)]"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick("#booking");
+                }}
+              >
+                Reserve Now
+              </a>
+            ) : (
+              <Link
+                href="/#booking"
+                className="btn-amber rounded-full px-8 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)]"
+              >
+                Reserve Now
+              </Link>
+            )}
           </div>
 
           {/* Mobile hamburger */}
@@ -167,17 +202,27 @@ export default function Navbar() {
         <ul className="space-y-1" role="list">
           {navLinks.map((link, i) => (
             <li key={link.label}>
-              <a
-                ref={(el) => (mobileLinksRef.current[i] = el)}
-                href={link.href}
-                className="block heading-serif text-5xl sm:text-6xl text-cream/70 hover:text-amber transition-colors duration-300 py-3 border-b border-white/5"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }}
-              >
-                {link.label}
-              </a>
+              {isHome ? (
+                <a
+                  ref={(el) => (mobileLinksRef.current[i] = el)}
+                  href={link.href}
+                  className="block heading-serif text-5xl sm:text-6xl text-cream/70 hover:text-amber transition-colors duration-300 py-3 border-b border-white/5"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  ref={(el) => (mobileLinksRef.current[i] = el)}
+                  href={`/${link.href}`}
+                  className="block heading-serif text-5xl sm:text-6xl text-cream/70 hover:text-amber transition-colors duration-300 py-3 border-b border-white/5"
+                >
+                  {link.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>
@@ -186,16 +231,25 @@ export default function Navbar() {
           ref={(el) => (mobileLinksRef.current[navLinks.length] = el)}
           className="mt-10"
         >
-          <a
-            href="#booking"
-            className="btn-amber block text-center rounded-full py-4 text-sm font-semibold tracking-widest shadow-[0_0_32px_var(--amber-glow)]"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavClick("#booking");
-            }}
-          >
-            Reserve Now
-          </a>
+          {isHome ? (
+            <a
+              href="#booking"
+              className="btn-amber block text-center rounded-full py-4 text-sm font-semibold tracking-widest shadow-[0_0_32px_var(--amber-glow)]"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick("#booking");
+              }}
+            >
+              Reserve Now
+            </a>
+          ) : (
+            <Link
+              href="/#booking"
+              className="btn-amber block text-center rounded-full py-4 text-sm font-semibold tracking-widest shadow-[0_0_32px_var(--amber-glow)]"
+            >
+              Reserve Now
+            </Link>
+          )}
         </div>
       </div>
     </>

@@ -6,6 +6,8 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { rooms } from "../lib/rooms";
+import ReservationModal from "./ReservationModal";
+import Navbar from "./Navbar";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,7 +50,7 @@ function AmenityIcon() {
 }
 
 // ─── Individual suite card ─────────────────────────────────────
-function SuiteCard({ room, index }) {
+function SuiteCard({ room, index, onReserve }) {
   const cardRef = useRef(null);
   const even = index % 2 === 0;
 
@@ -133,12 +135,13 @@ function SuiteCard({ room, index }) {
         {/* Price + CTA */}
         <div className="flex items-center justify-between pt-2 border-t border-white/8">
           <p className="text-amber text-lg font-semibold">{room.price}<span className="text-muted text-sm font-normal"> / night</span></p>
-          <Link
-            href="/#booking"
+          <button
+            type="button"
+            onClick={() => onReserve(room)}
             className="btn-amber rounded-full px-7 py-3 text-sm font-semibold tracking-widest shadow-[0_0_24px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
           >
             Reserve
-          </Link>
+          </button>
         </div>
       </div>
     </article>
@@ -148,23 +151,35 @@ function SuiteCard({ room, index }) {
 // ─── Page ──────────────────────────────────────────────────────
 export default function SuitesPage() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedSuite, setSelectedSuite] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const pageRef = useRef(null);   // scoped to the root div — covers header too
   const heroRef = useRef(null);
   const filterBarRef = useRef(null);
 
   const filtered = rooms.filter((r) => matchesFilter(r, activeFilter));
 
+  const handleReserve = (room) => {
+    setSelectedSuite(room);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    // Delay clearing the suite to allow exit animation
+    setTimeout(() => setSelectedSuite(null), 300);
+  };
+
   // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Hero + header entrance — use pageRef so .suites-back-link is in scope
+  // Hero entrance
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from(".suites-back-link", { x: -16, opacity: 0, duration: 0.6 })
-        .from(".suites-hero-label", { y: 20, opacity: 0, duration: 0.7 }, "-=0.3")
+      tl.from(".suites-hero-label", { y: 20, opacity: 0, duration: 0.7 })
         .from(".suites-hero-h1 .line-reveal-inner", { y: "110%", duration: 1.1, stagger: 0.12 }, "-=0.4")
         .from(".suites-hero-sub", { y: 16, opacity: 0, duration: 0.8 }, "-=0.5");
     }, pageRef);
@@ -192,48 +207,8 @@ export default function SuitesPage() {
   return (
     <div ref={pageRef} className="bg-midnight min-h-screen">
 
-      {/* ── Sticky top navigation bar ────────────────────────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-midnight/90 backdrop-blur-md border-b border-white/5 py-4">
-        <div className="mx-auto max-w-350 px-6 md:px-10 flex items-center justify-between">
-          <Link
-            href="/"
-            className="suites-back-link flex items-center gap-2.5 glass-pill px-4 py-2.5 rounded-full hover:border-amber/30 transition-all duration-300 group"
-            aria-label="Back to homepage"
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden className="group-hover:-translate-x-1 transition-transform duration-300">
-              <path
-                d="M11 14l-5-5 5-5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="stroke-muted group-hover:stroke-amber transition-colors duration-300"
-              />
-            </svg>
-            <span className="text-sm font-medium tracking-wide text-cream group-hover:text-amber transition-colors duration-300">Back to Home</span>
-          </Link>
-
-          <Link
-            href="/"
-            className="flex flex-col leading-none group"
-            aria-label="The Continental — home"
-          >
-            <span className="heading-serif text-cream text-2xl md:text-3xl font-semibold tracking-tight group-hover:text-amber transition-colors duration-300">
-              Continental
-            </span>
-            <span className="section-label text-[0.52rem] mt-0.5 tracking-[0.3em]">
-              Est. 1924
-            </span>
-          </Link>
-
-          <Link
-            href="/#booking"
-            className="btn-amber rounded-full px-6 py-2.5 text-xs font-semibold tracking-widest shadow-[0_0_20px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
-          >
-            Reserve Now
-          </Link>
-        </div>
-      </header>
+      {/* ── Navigation ────────────────────────── */}
+      <Navbar />
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section
@@ -281,7 +256,8 @@ export default function SuitesPage() {
       {/* ── Filter bar ───────────────────────────────────────── */}
       <div
         ref={filterBarRef}
-        className="sticky top-18 z-40 bg-midnight/95 backdrop-blur-md border-b border-white/5 py-5"
+        className="sticky z-40 bg-midnight/95 backdrop-blur-md border-b border-white/5 py-5"
+        style={{ top: "calc(1.5rem + 56px)" }}
       >
         <div className="max-w-350 mx-auto px-6 md:px-10">
           <div className="flex items-center gap-3 flex-wrap">
@@ -320,7 +296,7 @@ export default function SuitesPage() {
           </div>
         ) : (
           filtered.map((room, i) => (
-            <SuiteCard key={room.slug} room={room} index={i} />
+            <SuiteCard key={room.slug} room={room} index={i} onReserve={handleReserve} />
           ))
         )}
       </main>
@@ -362,6 +338,13 @@ export default function SuitesPage() {
           © {new Date().getFullYear()} The Continental. All rights reserved.
         </p>
       </footer>
+
+      {/* ── Reservation Modal ────────────────────────────────── */}
+      <ReservationModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        suite={selectedSuite}
+      />
     </div>
   );
 }
