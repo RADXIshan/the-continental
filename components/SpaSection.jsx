@@ -42,6 +42,7 @@ const treatments = [
 export default function SpaSection() {
   const sectionRef = useRef(null);
   const [modalTreatment, setModalTreatment] = useState(null);
+  const [expandedRow, setExpandedRow] = useState(null); // for mobile dropdown
   // Cursor image — managed entirely via GSAP/DOM to avoid React re-renders
   const cursorRef = useRef(null);
   const cursorImgRef = useRef(null);
@@ -269,7 +270,7 @@ export default function SpaSection() {
       {/* Cursor image — positioned & shown via GSAP, no React re-renders */}
       <div
         ref={cursorRef}
-        className="pointer-events-none fixed z-200 w-64 h-72 md:w-72 md:h-80 overflow-hidden rounded-3xl border border-white/10 shadow-[0_28px_64px_rgba(0,0,0,0.7)]"
+        className="hidden md:block pointer-events-none fixed z-200 w-64 h-72 md:w-72 md:h-80 overflow-hidden rounded-3xl border border-white/10 shadow-[0_28px_64px_rgba(0,0,0,0.7)]"
         style={{ top: 0, left: 0, opacity: 0, visibility: "hidden", willChange: "transform, opacity" }}
         aria-hidden
       >
@@ -381,51 +382,142 @@ export default function SpaSection() {
             </div>
           </div>
 
-          {/* ── Bottom: treatments list with cursor hover image ── */}
+          {/* ── Bottom: treatments list with cursor hover image (desktop) / accordion (mobile) ── */}
           <div
             className="spa-treatments-grid border-t border-white/8 pt-16 md:pt-20"
             onMouseLeave={handleTreatmentsGridLeave}
           >
             <p className="section-label text-white/30 mb-10">Signature Treatments</p>
             <div className="divide-y divide-white/8">
-              {treatments.map((t) => (
-                <div
-                  key={t.name}
-                  className="spa-treatment-row group grid md:grid-cols-12 gap-4 md:gap-8 py-8 md:py-10 md:cursor-none"
-                  onMouseEnter={() => handleRowEnter(t)}
-                  onMouseLeave={handleRowLeave}
-                  onClick={() => setModalTreatment(t)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setModalTreatment(t); }}
-                  aria-label={`Book ${t.name}`}
-                >
-                  <div className="md:col-span-1 flex items-start pt-1">
-                    <span className="section-label text-white/25 group-hover:text-amber transition-colors duration-300">
-                      {t.number}
-                    </span>
+              {treatments.map((t) => {
+                const isExpanded = expandedRow === t.name;
+                return (
+                  <div key={t.name} className="spa-treatment-row">
+                    {/* ── Row header — tap on mobile, hover on desktop ── */}
+                    <div
+                      className="group grid grid-cols-12 gap-4 md:gap-8 py-7 md:py-10 cursor-pointer md:cursor-none"
+                      onMouseEnter={() => handleRowEnter(t)}
+                      onMouseLeave={handleRowLeave}
+                      onClick={() => {
+                        // Always open modal on click
+                        setModalTreatment(t);
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setModalTreatment(t);
+                        }
+                      }}
+                      aria-label={`Book ${t.name}`}
+                    >
+                      {/* Number */}
+                      <div className="col-span-1 flex items-center">
+                        <span className="section-label text-white/25 group-hover:text-amber transition-colors duration-300">
+                          {t.number}
+                        </span>
+                      </div>
+
+                      {/* Name + duration (stacked on mobile, split on md+) */}
+                      <div className="col-span-9 md:col-span-4 flex flex-col justify-center">
+                        <h3 className="heading-serif text-xl sm:text-2xl md:text-3xl text-cream group-hover:text-amber transition-colors duration-300 leading-tight">
+                          {t.name}
+                        </h3>
+                        {/* Duration visible below name on mobile only */}
+                        <span className="md:hidden text-xs text-white/35 tracking-widest uppercase mt-1.5">
+                          {t.duration}
+                        </span>
+                      </div>
+
+                      {/* Description — hidden on mobile (shown in accordion) */}
+                      <div className="hidden md:block md:col-span-4">
+                        <p className="text-muted text-sm md:text-base leading-relaxed">{t.desc}</p>
+                      </div>
+
+                      {/* Right side: duration + book (desktop) | chevron (mobile) */}
+                      <div className="col-span-2 md:col-span-3 flex justify-end items-center gap-4">
+                        {/* Duration — desktop only */}
+                        <span className="hidden md:inline text-xs text-white/30 group-hover:text-amber/60 transition-colors duration-300 tracking-widest uppercase">
+                          {t.duration}
+                        </span>
+                        {/* Book pill — desktop hover only */}
+                        <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-amber/0 group-hover:text-amber border border-amber/0 group-hover:border-amber/40 rounded-full px-3 py-1 transition-all duration-300 tracking-widest uppercase whitespace-nowrap">
+                          Book
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
+                        {/* Chevron — mobile/tablet only */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedRow(isExpanded ? null : t.name);
+                          }}
+                          className="md:hidden shrink-0 text-amber/50 hover:text-amber transition-colors duration-300 p-1"
+                          aria-label={isExpanded ? "Collapse details" : "Expand details"}
+                        >
+                          <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : "rotate-0"}`}
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* ── Accordion panel — mobile/tablet only ── */}
+                    <div
+                      className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
+                        isExpanded ? "max-h-105 opacity-100" : "max-h-0 opacity-0"
+                      }`}
+                      aria-hidden={!isExpanded}
+                    >
+                      <div className="pb-7 flex flex-col sm:flex-row gap-5">
+                        {/* Treatment image */}
+                        <div className="relative w-full sm:w-40 shrink-0 rounded-xl overflow-hidden"
+                          style={{ height: "clamp(180px, 36vw, 220px)" }}>
+                          <Image
+                            src={t.image}
+                            alt={t.name}
+                            fill
+                            className="object-cover object-center"
+                            sizes="(max-width: 640px) 100vw, 160px"
+                          />
+                          <div className="absolute inset-0 bg-linear-to-t from-midnight/40 to-transparent" />
+                        </div>
+
+                        {/* Description + book CTA */}
+                        <div className="flex flex-col justify-between gap-5">
+                          <p className="text-muted text-sm leading-relaxed">{t.desc}</p>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setModalTreatment(t);
+                            }}
+                            className="self-start inline-flex items-center gap-2.5 text-amber border border-amber/35 hover:border-amber/70 rounded-full px-4 py-2 text-xs tracking-widest uppercase transition-all duration-300"
+                          >
+                            Book treatment
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                              <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="md:col-span-4">
-                    <h3 className="heading-serif text-2xl md:text-3xl text-cream group-hover:text-amber transition-colors duration-300">
-                      {t.name}
-                    </h3>
-                  </div>
-                  <div className="md:col-span-4">
-                    <p className="text-muted text-sm md:text-base leading-relaxed">{t.desc}</p>
-                  </div>
-                  <div className="md:col-span-3 flex md:justify-end items-start gap-4">
-                    <span className="text-xs text-white/30 group-hover:text-amber/60 transition-colors duration-300 tracking-widest uppercase pt-1">
-                      {t.duration}
-                    </span>
-                    <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-amber/0 group-hover:text-amber border border-amber/0 group-hover:border-amber/40 rounded-full px-3 py-1 transition-all duration-300 tracking-widest uppercase whitespace-nowrap">
-                      Book
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M5 12h14M13 6l6 6-6 6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -433,6 +525,7 @@ export default function SpaSection() {
       </section>
 
       <SpaTreatmentModal
+        key={modalTreatment?.name ?? "closed"}
         isOpen={!!modalTreatment}
         onClose={() => setModalTreatment(null)}
         treatment={modalTreatment}

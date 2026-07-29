@@ -43,29 +43,25 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
   const modalRef = useRef(null);
   const headerImgRef = useRef(null);
 
-  // Local selected treatment — starts from whichever card was clicked
-  const [selected, setSelected] = useState(treatment);
-
-  // Sync when a new treatment is passed in (user opens modal from a different row)
-  useEffect(() => {
-    if (treatment) setSelected(treatment);
-  }, [treatment]);
+  // Local selected treatment name — starts from whichever card was clicked
+  const [selectedName, setSelectedName] = useState(treatment?.name ?? null);
+  const activeTreatment = ALL_TREATMENTS.find((item) => item.name === selectedName) ?? treatment ?? ALL_TREATMENTS[0];
 
   // Crossfade header image when selection changes
   useEffect(() => {
-    if (!headerImgRef.current || !selected) return;
+    if (!headerImgRef.current || !activeTreatment) return;
     gsap.fromTo(
       headerImgRef.current,
       { opacity: 0, scale: 1.06 },
       { opacity: 1, scale: 1.05, duration: 0.5, ease: "power2.out" }
     );
-    headerImgRef.current.src = selected.image;
-    headerImgRef.current.alt = selected.name;
-  }, [selected]);
+    headerImgRef.current.src = activeTreatment.image;
+    headerImgRef.current.alt = activeTreatment.name;
+  }, [activeTreatment?.name, activeTreatment?.image]);
 
   // Open / close animations
   useEffect(() => {
-    if (!overlayRef.current || !modalRef.current) return;
+    if (!overlayRef.current || !modalRef.current || !activeTreatment) return;
 
     if (isOpen) {
       gsap.set(overlayRef.current, { display: "flex" });
@@ -125,12 +121,12 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(
-      `Thank you for booking the ${selected?.name}. Our spa concierge will contact you shortly to confirm your appointment.`
+      `Thank you for booking the ${activeTreatment?.name}. Our spa concierge will contact you shortly to confirm your appointment.`
     );
     onClose();
   };
 
-  if (!selected) return null;
+  if (!activeTreatment) return null;
 
   return (
     <div
@@ -168,27 +164,27 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             ref={headerImgRef}
-            src={selected.image}
-            alt={selected.name}
+            src={activeTreatment.image}
+            alt={activeTreatment.name}
             className="absolute inset-0 w-full h-full object-cover scale-105"
           />
           <div className="absolute inset-0 bg-linear-to-t from-deep-blue via-deep-blue/50 to-transparent" />
           <div className="absolute bottom-6 left-8">
             <p className="section-label mb-2">Spa Treatment</p>
-            <h2 className="heading-serif text-3xl md:text-4xl text-cream">{selected.name}</h2>
+            <h2 className="heading-serif text-3xl md:text-4xl text-cream">{activeTreatment.name}</h2>
             <div className="flex items-center gap-3 mt-2">
               <span className="text-amber font-medium tracking-widest uppercase text-xs">
-                {selected.duration}
+                {activeTreatment.duration}
               </span>
               <span className="text-white/30 text-xs">·</span>
-              <span className="text-cream/60 text-xs font-medium tracking-wide">{selected.price}</span>
+              <span className="text-cream/60 text-xs font-medium tracking-wide">{activeTreatment.price}</span>
             </div>
           </div>
         </div>
 
         {/* Treatment description */}
         <div className="px-8 pt-6 pb-5 border-b border-white/8">
-          <p className="text-muted text-sm md:text-base leading-relaxed">{selected.desc}</p>
+          <p className="text-muted text-sm md:text-base leading-relaxed">{activeTreatment.desc}</p>
         </div>
 
         {/* ── Treatment selector ── */}
@@ -196,12 +192,12 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
           <p className="text-xs text-white/40 tracking-widest uppercase mb-4">Choose Treatment</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {ALL_TREATMENTS.map((t) => {
-              const isActive = selected.name === t.name;
+              const isActive = activeTreatment.name === t.name;
               return (
                 <button
                   key={t.name}
                   type="button"
-                  onClick={() => setSelected(t)}
+                  onClick={() => setSelectedName(t.name)}
                   className={`text-left rounded-md px-4 py-3.5 border transition-all duration-300 focus-visible:outline-2 focus-visible:outline-amber ${
                     isActive
                       ? "border-amber/60 bg-amber/8 text-cream"
@@ -349,7 +345,7 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
             >
               <option value="">Select number of guests</option>
               <option value="1">1 Guest</option>
-              {selected.name === "Couples Sanctuary" ? (
+              {activeTreatment.name === "Couples Sanctuary" ? (
                 <option value="2">2 Guests</option>
               ) : (
                 <>
@@ -381,7 +377,7 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
               type="submit"
               className="flex-1 btn-amber rounded-full px-8 py-4 text-sm font-semibold tracking-widest shadow-[0_0_30px_var(--amber-glow)] focus-visible:outline-2 focus-visible:outline-amber"
             >
-              Book {selected.name}
+              Book {activeTreatment.name}
             </button>
             <button
               type="button"
