@@ -46,22 +46,24 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
   // Local selected treatment name — starts from whichever card was clicked
   const [selectedName, setSelectedName] = useState(treatment?.name ?? null);
   const activeTreatment = ALL_TREATMENTS.find((item) => item.name === selectedName) ?? treatment ?? ALL_TREATMENTS[0];
+  const activeTreatmentName = activeTreatment?.name ?? null;
+  const activeTreatmentImage = activeTreatment?.image ?? null;
 
   // Crossfade header image when selection changes
   useEffect(() => {
-    if (!headerImgRef.current || !activeTreatment) return;
+    if (!headerImgRef.current || !activeTreatmentName || !activeTreatmentImage) return;
     gsap.fromTo(
       headerImgRef.current,
       { opacity: 0, scale: 1.06 },
       { opacity: 1, scale: 1.05, duration: 0.5, ease: "power2.out" }
     );
-    headerImgRef.current.src = activeTreatment.image;
-    headerImgRef.current.alt = activeTreatment.name;
-  }, [activeTreatment?.name, activeTreatment?.image]);
+    headerImgRef.current.src = activeTreatmentImage;
+    headerImgRef.current.alt = activeTreatmentName;
+  }, [activeTreatmentName, activeTreatmentImage]);
 
   // Open / close animations
   useEffect(() => {
-    if (!overlayRef.current || !modalRef.current || !activeTreatment) return;
+    if (!overlayRef.current || !modalRef.current || !activeTreatmentName) return;
 
     if (isOpen) {
       gsap.set(overlayRef.current, { display: "flex" });
@@ -80,7 +82,7 @@ export default function SpaTreatmentModal({ isOpen, onClose, treatment }) {
         onComplete: () => gsap.set(overlayRef.current, { display: "none" }),
       });
     }
-  }, [isOpen]);
+  }, [isOpen, activeTreatmentName]);
 
   // Escape key
   useEffect(() => {
